@@ -47,19 +47,12 @@ All colors MUST be HSL.
     --radius: 0.5rem;
 
     --sidebar-background: 0 0% 98%;
-
     --sidebar-foreground: 240 5.3% 26.1%;
-
     --sidebar-primary: 240 5.9% 10%;
-
     --sidebar-primary-foreground: 0 0% 98%;
-
     --sidebar-accent: 240 4.8% 95.9%;
-
     --sidebar-accent-foreground: 240 5.9% 10%;
-
     --sidebar-border: 220 13% 91%;
-
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
 
@@ -91,6 +84,7 @@ All colors MUST be HSL.
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
     --ring: 212.7 26.8% 83.9%;
+
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
     --sidebar-primary: 224.3 76.3% 48%;
@@ -118,30 +112,53 @@ All colors MUST be HSL.
   .mobile-container {
     @apply max-w-sm mx-auto min-h-screen bg-background relative;
   }
-  
+
   .mobile-card {
     @apply bg-card p-6 rounded-3xl shadow-lg;
     box-shadow: 0 10px 30px hsl(var(--shadow-card));
   }
-  
+
   .social-button {
     @apply w-12 h-12 rounded-2xl bg-secondary flex items-center justify-center transition-all duration-200 hover:bg-primary hover:text-primary-foreground;
   }
-  
+
   .mobile-input {
     @apply w-full px-4 py-3 rounded-2xl border border-input bg-background text-sm font-light placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent;
   }
-  
+
   .mobile-button {
     @apply w-full py-3 px-6 bg-primary text-primary-foreground rounded-2xl font-medium transition-all duration-200 hover:shadow-lg active:scale-95;
   }
-  
+
   .mobile-fab {
     @apply w-14 h-14 bg-primary text-primary-foreground rounded-full flex items-center justify-center shadow-lg fixed bottom-6 right-3 transition-all duration-300 hover:scale-110 active:scale-95;
     box-shadow: 0 8px 25px hsl(var(--shadow-card));
   }
-  
+
   .welcome-bg {
     background: linear-gradient(135deg, hsl(var(--mobile-bg)) 0%, hsl(var(--background)) 100%);
+  }
+
+  /* Gamified 3D Design System Components */
+  .glass-card {
+    @apply bg-white bg-opacity-30 backdrop-blur-md p-4 rounded-3xl shadow-md border border-white border-opacity-10;
+    box-shadow: 0 10px 30px hsl(var(--shadow-card));
+  }
+
+  .soft-input {
+    @apply px-4 py-2 w-full rounded-xl border border-input bg-white bg-opacity-40 backdrop-blur-sm placeholder:text-muted-foreground text-sm font-light focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent;
+  }
+
+  .bubble-button {
+    @apply px-4 py-2 rounded-full bg-primary text-primary-foreground font-medium shadow-md hover:shadow-lg transition-all duration-200 active:scale-95;
+    box-shadow: 0 4px 20px hsl(var(--shadow-soft));
+  }
+
+  .progress-pill {
+    @apply h-2 w-full rounded-full bg-muted relative overflow-hidden;
+  }
+
+  .progress-fill {
+    @apply h-full rounded-full bg-primary absolute top-0 left-0 transition-all duration-300;
   }
 }
