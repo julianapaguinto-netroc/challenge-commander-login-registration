@@ -2,39 +2,47 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+/* Mobile-First Authentication Design System
+Primary: #a42138 (HSL: 350 58% 35%)
+Typography: Poppins family with specific weights
 All colors MUST be HSL.
 */
 
 @layer base {
   :root {
     --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    --foreground: 220 13% 18%;
 
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card-foreground: 220 13% 18%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover-foreground: 220 13% 18%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    --primary: 350 58% 35%;
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 220 14% 96%;
+    --secondary-foreground: 220 13% 18%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 220 14% 96%;
+    --muted-foreground: 220 8.9% 46.1%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: 220 14% 96%;
+    --accent-foreground: 220 13% 18%;
 
     --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --border: 220 13% 91%;
+    --input: 220 13% 91%;
+    --ring: 350 58% 35%;
+
+    /* Mobile-specific tokens */
+    --mobile-bg: 225 20% 95%;
+    --social-hover: 350 58% 35%;
+    --shadow-soft: 220 43% 11% / 0.1;
+    --shadow-card: 220 43% 11% / 0.15;
 
     --radius: 0.5rem;
 
@@ -100,6 +108,40 @@ All colors MUST be HSL.
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-light;
+    font-family: 'Poppins', sans-serif;
+  }
+}
+
+@layer components {
+  /* Mobile-specific components */
+  .mobile-container {
+    @apply max-w-sm mx-auto min-h-screen bg-background relative;
+  }
+  
+  .mobile-card {
+    @apply bg-card p-6 rounded-3xl shadow-lg;
+    box-shadow: 0 10px 30px hsl(var(--shadow-card));
+  }
+  
+  .social-button {
+    @apply w-12 h-12 rounded-2xl bg-secondary flex items-center justify-center transition-all duration-200 hover:bg-primary hover:text-primary-foreground;
+  }
+  
+  .mobile-input {
+    @apply w-full px-4 py-3 rounded-2xl border border-input bg-background text-sm font-light placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent;
+  }
+  
+  .mobile-button {
+    @apply w-full py-3 px-6 bg-primary text-primary-foreground rounded-2xl font-medium transition-all duration-200 hover:shadow-lg active:scale-95;
+  }
+  
+  .mobile-fab {
+    @apply w-14 h-14 bg-primary text-primary-foreground rounded-full flex items-center justify-center shadow-lg fixed bottom-6 right-6 transition-all duration-300 hover:scale-110 active:scale-95;
+    box-shadow: 0 8px 25px hsl(var(--shadow-card));
+  }
+  
+  .welcome-bg {
+    background: linear-gradient(135deg, hsl(var(--mobile-bg)) 0%, hsl(var(--background)) 100%);
   }
 }
