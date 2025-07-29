@@ -219,6 +219,27 @@ export default function Dashboard() {
         <main className="flex-1 px-4 pt-5 pb-20">
           <div className="space-y-6">
             <BusinessHeader />
+
+            {/* Profile completion notice */}
+            <div className="bg-yellow-100 border border-yellow-300 text-yellow-800 rounded-lg p-4 space-y-2">
+              <div className="text-sm font-medium">
+                Your profile is <span className="font-bold">45%</span> complete.
+                Help others understand who you are by finishing it.
+              </div>
+              <div className="w-full bg-yellow-200 rounded-full h-2">
+                <div
+                  className="bg-yellow-500 h-2 rounded-full transition-all duration-300"
+                  style={{ width: "45%" }}
+                />
+              </div>
+              <button
+                onClick={() => navigate("/organization-info")}
+                className="text-sm text-primary hover:underline mt-1 font-medium"
+              >
+                Continue completing your profile →
+              </button>
+            </div>
+
             <MarketingBanner />
             <FellowAstronauts />
             <SpecialRewards />

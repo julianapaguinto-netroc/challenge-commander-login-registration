@@ -9,6 +9,8 @@ import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import NotFound from "./pages/NotFound";
 import ChallengeCreationFlow from "@/components/challenge/ChallengeCreationFlow";
+import PersonaSelection from "@/pages/PersonaSelection";
+import OrganizationInfo from "@/pages/OrgDetailsForm";
 
 const queryClient = new QueryClient();
 
@@ -19,12 +21,13 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Welcome />} />
+          <Route path="/" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
-          <Route path="/login" element={<Login />} />
           <Route path="/dashboard" element={<Dashboard />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="/create-challenge" element={<ChallengeCreationFlow />} />
+          <Route path="/persona-selection" element={<PersonaSelection />} />      
+  <Route path="/organization-info" element={<OrganizationInfo />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

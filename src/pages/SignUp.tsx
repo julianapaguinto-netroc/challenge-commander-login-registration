@@ -1,28 +1,27 @@
-import { useState } from "react"
-import { SocialLogin } from "@/components/social-login"
-import { MobileButton } from "@/components/ui/mobile-button"
-import { MobileInput } from "@/components/ui/mobile-input"
-import { Checkbox } from "@/components/ui/checkbox"
-import { useNavigate } from "react-router-dom"
-import { Eye, EyeOff } from "lucide-react"
+import { useState } from "react";
+import { SocialLogin } from "@/components/social-login";
+import { MobileButton } from "@/components/ui/mobile-button";
+import { MobileInput } from "@/components/ui/mobile-input";
+import { Checkbox } from "@/components/ui/checkbox";
+import { useNavigate } from "react-router-dom";
+import { Eye, EyeOff } from "lucide-react";
 
 export default function SignUp() {
-  const navigate = useNavigate()
-  const [showPassword, setShowPassword] = useState(false)
+  const navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
-    birthday: "",
     email: "",
     password: "",
-    agreeToPrivacy: false
-  })
+    agreeToPrivacy: false,
+  });
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
+    e.preventDefault();
     // Handle signup logic here
-    navigate('/dashboard')
-  }
+    navigate("/persona-selection");
+  };
 
   return (
     <div className="mobile-container welcome-bg">
@@ -31,69 +30,84 @@ export default function SignUp() {
           <div className="mobile-card w-full max-w-sm">
             {/* Header */}
             <div className="text-center mb-8">
-              <h1 className="text-2xl font-medium text-foreground mb-2">Sign Up</h1>
+              <h1 className="text-2xl font-medium text-foreground mb-2">
+                Sign Up
+              </h1>
               <p className="text-sm text-muted-foreground font-light">
-                Please registration with email and sign up to continue using our app.
+                Please register with an active email to continue using our
+                gamification app.
               </p>
-            </div>
-
-            {/* Social Login */}
-            <SocialLogin title="Enter via Social Networks" />
-
-            {/* Divider */}
-            <div className="flex items-center my-6">
-              <div className="flex-1 border-t border-border"></div>
-              <span className="px-4 text-sm text-muted-foreground font-light">or login with email</span>
-              <div className="flex-1 border-t border-border"></div>
             </div>
 
             {/* Sign Up Form */}
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="grid grid-cols-2 gap-3">
+                <div className="w-full">
+                  <label className="text-sm font-medium text-foreground mb-1 block">
+                    First Name<span className="text-red-500 ml-1">*</span>
+                  </label>
+                  <MobileInput
+                    placeholder="First Name"
+                    value={formData.firstName}
+                    onChange={(e) =>
+                      setFormData({ ...formData, firstName: e.target.value })
+                    }
+                    required
+                  />
+                </div>
+
+                <div className="w-full">
+                  <label className="text-sm font-medium text-foreground mb-1 block">
+                    Last Name
+                  </label>
+                  <MobileInput
+                    placeholder="Last Name"
+                    value={formData.lastName}
+                    onChange={(e) =>
+                      setFormData({ ...formData, lastName: e.target.value })
+                    }
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="text-sm font-medium text-foreground mb-1 block">
+                  Active Email<span className="text-red-500 ml-1">*</span>
+                </label>
                 <MobileInput
-                  placeholder="First Name"
-                  value={formData.firstName}
-                  onChange={(e) => setFormData({...formData, firstName: e.target.value})}
-                  required
-                />
-                <MobileInput
-                  placeholder="Last Name"
-                  value={formData.lastName}
-                  onChange={(e) => setFormData({...formData, lastName: e.target.value})}
+                  type="email"
+                  placeholder="Active Email"
+                  value={formData.email}
+                  onChange={(e) =>
+                    setFormData({ ...formData, email: e.target.value })
+                  }
                   required
                 />
               </div>
-              
-              <MobileInput
-                type="date"
-                placeholder="Birthday"
-                value={formData.birthday}
-                onChange={(e) => setFormData({...formData, birthday: e.target.value})}
-                required
-              />
-              
-              <MobileInput
-                type="email"
-                placeholder="Active Email"
-                value={formData.email}
-                onChange={(e) => setFormData({...formData, email: e.target.value})}
-                required
-              />
-              
+
               <div className="relative">
+                <label className="text-sm font-medium text-foreground mb-1 block">
+                  Create Password<span className="text-red-500 ml-1">*</span>
+                </label>
                 <MobileInput
                   type={showPassword ? "text" : "password"}
                   placeholder="Create Password"
                   value={formData.password}
-                  onChange={(e) => setFormData({...formData, password: e.target.value})}
+                  onChange={(e) =>
+                    setFormData({ ...formData, password: e.target.value })
+                  }
                   required
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground"
+                  className="absolute right-3 top-10 text-muted-foreground"
                 >
-                  {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                  {showPassword ? (
+                    <EyeOff className="w-5 h-5" />
+                  ) : (
+                    <Eye className="w-5 h-5" />
+                  )}
                 </button>
               </div>
 
@@ -102,9 +116,14 @@ export default function SignUp() {
                 <Checkbox
                   id="privacy"
                   checked={formData.agreeToPrivacy}
-                  onCheckedChange={(checked) => setFormData({...formData, agreeToPrivacy: !!checked})}
+                  onCheckedChange={(checked) =>
+                    setFormData({ ...formData, agreeToPrivacy: !!checked })
+                  }
                 />
-                <label htmlFor="privacy" className="text-sm text-muted-foreground font-light cursor-pointer">
+                <label
+                  htmlFor="privacy"
+                  className="text-sm text-muted-foreground font-light cursor-pointer"
+                >
                   I agree with privacy policy
                 </label>
               </div>
@@ -119,8 +138,8 @@ export default function SignUp() {
             <div className="text-center mt-6">
               <p className="text-sm text-muted-foreground font-light">
                 You already have an account?{" "}
-                <button 
-                  onClick={() => navigate('/login')}
+                <button
+                  onClick={() => navigate("/")}
                   className="text-primary font-medium hover:underline"
                 >
                   Login
@@ -131,5 +150,5 @@ export default function SignUp() {
         </div>
       </div>
     </div>
-  )
+  );
 }

@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { Upload, Info } from 'lucide-react';
-import { ChallengeData } from '../ChallengeCreationFlow';
+import React, { useState } from "react";
+import { Upload, Info } from "lucide-react";
+import { ChallengeData } from "../ChallengeCreationFlow";
 
 interface ChallengeDetailsStepProps {
   data: ChallengeData;
@@ -11,22 +11,25 @@ interface ChallengeDetailsStepProps {
 export const ChallengeDetailsStep: React.FC<ChallengeDetailsStepProps> = ({
   data,
   onUpdate,
-  onNext
+  onNext,
 }) => {
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
   const validateAndNext = () => {
     const newErrors: { [key: string]: string } = {};
-    
+
     if (!data.name.trim()) {
-      newErrors.name = 'Challenge name is required';
+      newErrors.name = "Challenge name is required";
     }
     if (!data.description.trim()) {
-      newErrors.description = 'Description is required';
+      newErrors.description = "Description is required";
     }
-    
+    if (!data.selectedPersona) {
+      newErrors.selectedPersona = "Please select a target persona";
+    }
+
     setErrors(newErrors);
-    
+
     if (Object.keys(newErrors).length === 0) {
       onNext();
     }
@@ -114,11 +117,35 @@ export const ChallengeDetailsStep: React.FC<ChallengeDetailsStepProps> = ({
                 type="checkbox"
                 className="sr-only peer"
                 checked={data.allowLeaderboard}
-                onChange={(e) => onUpdate({ allowLeaderboard: e.target.checked })}
+                onChange={(e) =>
+                  onUpdate({ allowLeaderboard: e.target.checked })
+                }
               />
               <div className="w-11 h-6 bg-muted peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
             </label>
           </div>
+        </div>
+
+        {/* Persona Selection */}
+        <div className="space-y-2">
+          <label className="text-sm font-medium text-primary">
+            Select Target *
+          </label>
+          <select
+            className="soft-input w-full"
+            value={data.selectedPersona || ""}
+            onChange={(e) => onUpdate({ selectedPersona: e.target.value })}
+          >
+            <option value="" disabled>
+              Select a target
+            </option>
+            <option value="startup">Youth Leaders</option>
+            <option value="non-profit">Religious Leaders</option>
+            <option value="corporate">Volunteers</option>
+          </select>
+          {!data.selectedPersona && errors.selectedPersona && (
+            <p className="text-xs text-destructive">{errors.selectedPersona}</p>
+          )}
         </div>
       </div>
 
@@ -135,7 +162,8 @@ export const ChallengeDetailsStep: React.FC<ChallengeDetailsStepProps> = ({
         <div className="flex items-start space-x-3">
           <Info className="w-4 h-4 text-primary mt-0.5" />
           <p className="text-xs font-light text-muted-foreground">
-            <span className="font-medium text-primary">Tip:</span> Choose a clear, motivating name that explains what participants will achieve.
+            <span className="font-medium text-primary">Tip:</span> Choose a
+            clear, motivating name that explains what participants will achieve.
           </p>
         </div>
       </div>
