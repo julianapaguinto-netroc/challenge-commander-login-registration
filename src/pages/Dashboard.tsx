@@ -31,7 +31,7 @@ export default function Dashboard() {
       )}
 
       {/* Sidebar */}
-      <div className={`fixed left-0 top-0 h-full w-64 bg-background border-r border-border z-50 transform transition-transform duration-300 ${
+      <div className={`fixed left-0 top-0 h-full w-56 bg-background border-r border-border z-50 transform transition-transform duration-300 ${
         isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
       }`}>
         <div className="p-6">

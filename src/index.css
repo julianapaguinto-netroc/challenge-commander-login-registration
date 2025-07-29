@@ -137,7 +137,7 @@ All colors MUST be HSL.
   }
   
   .mobile-fab {
-    @apply w-14 h-14 bg-primary text-primary-foreground rounded-full flex items-center justify-center shadow-lg fixed bottom-4 right-4 transition-all duration-300 hover:scale-110 active:scale-95;
+    @apply w-14 h-14 bg-primary text-primary-foreground rounded-full flex items-center justify-center shadow-lg fixed bottom-6 right-3 transition-all duration-300 hover:scale-110 active:scale-95;
     box-shadow: 0 8px 25px hsl(var(--shadow-card));
   }
   
