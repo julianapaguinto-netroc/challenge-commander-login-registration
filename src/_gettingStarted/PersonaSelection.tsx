@@ -14,6 +14,7 @@ export default function PersonaSelection() {
   const navigate = useNavigate();
   const [persona, setPersona] = useState<"Community" | "Company" | "Education" | "">("");
   const [selectedAudiences, setSelectedAudiences] = useState<string[]>([]);
+  const [uniqueCode, setUniqueCode] = useState("");
 
   const toggleAudience = (audience: string) => {
     setSelectedAudiences((prev) =>
@@ -24,10 +25,27 @@ export default function PersonaSelection() {
   };
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Save persona and audience selections, then continue
+  e.preventDefault();
+
+  // Store selections
+  localStorage.setItem("persona", persona);
+  localStorage.setItem("selectedAudiences", JSON.stringify(selectedAudiences));
+  localStorage.setItem("uniqueCode", uniqueCode);
+
+  const selectedRole = localStorage.getItem("selectedRole");
+
+  // Define roles that go to /my-challenges
+  const allowedRoles = ["participant", "supporter", "admin", "affiliated"];
+
+  if (selectedRole === "commander") {
     navigate("/organization-info");
-  };
+  } else if (selectedRole && allowedRoles.includes(selectedRole)) {
+    navigate("/my-challenges");
+  } else {
+    console.warn("Unrecognized or missing role:", selectedRole);
+    // Optionally show error or fallback screen
+  }
+};
 
   return (
     <div className="mobile-container welcome-bg">
@@ -35,13 +53,30 @@ export default function PersonaSelection() {
         <div className="flex-1 flex items-center justify-center">
           <div className="mobile-card w-full max-w-sm">
             <div className="text-center mb-6">
-              <h1 className="text-2xl font-medium text-foreground mb-2">Welcome!</h1>
+              <h1 className="text-2xl font-medium text-foreground mb-2">You are affiliated!</h1>
               <p className="text-sm text-muted-foreground font-light">
                 Help us personalize your experience by choosing your persona and audience.
               </p>
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-4">
+              {/* Organization Code */}
+              <div className="space-y-2">
+                <label className="text-sm text-muted-foreground font-light">
+                  Organization/Community Code
+                </label>
+                <MobileInput
+                  type="text"
+                  placeholder="Enter your unique code"
+                  value={uniqueCode}
+                  onChange={(e) => setUniqueCode(e.target.value)}
+                  required
+                />
+                <p className="text-xs text-muted-foreground font-light">
+                  This code is provided by your organization or community
+                </p>
+              </div>
+
               {/* Persona Selection */}
               <div className="space-y-2">
                 <label className="text-sm text-muted-foreground font-light">
@@ -89,7 +124,11 @@ export default function PersonaSelection() {
               )}
 
               {/* Continue Button */}
-              <MobileButton type="submit" className="mt-6" disabled={!persona}>
+              <MobileButton 
+                type="submit" 
+                className="mt-6" 
+                disabled={!persona || !uniqueCode.trim()}
+              >
                 Continue
               </MobileButton>
             </form>

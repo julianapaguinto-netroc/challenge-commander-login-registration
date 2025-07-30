@@ -18,7 +18,7 @@ export default function Login() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     // Handle login logic here
-    navigate("/dashboard");
+    navigate("/my-challenges");
   };
 
   return (

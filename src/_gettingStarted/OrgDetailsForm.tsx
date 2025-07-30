@@ -27,12 +27,12 @@ export default function OrgDetailsForm() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     // Save data logic here
-    navigate("/dashboard"); // or next screen
+    navigate("/homescreen-commander"); // or next screen
   };
 
   const skipForLater = () => {
     // Optional: Save partial state to local/session
-    navigate("/dashboard");
+    navigate("/homescreen-commander");
   };
 
   return (
