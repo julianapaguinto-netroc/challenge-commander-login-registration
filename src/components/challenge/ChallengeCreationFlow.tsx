@@ -1,15 +1,15 @@
-import React, { useState } from 'react';
-import { ArrowLeft, ArrowRight } from 'lucide-react';
-import { ChallengeDetailsStep } from './steps/ChallengeDetailsStep';
-import { ChallengeParticipantsStep } from './steps/ChallengeParticipantsStep';
-import { ChallengeVisibilityStep } from './steps/ChallengeVisibilityStep';
-import { ParticipantSelectionStep } from './steps/ParticipantSelectionStep';
-import { TeamSetupStep } from './steps/TeamSetupStep';
-import { ChallengeTypeStep } from './steps/ChallengeTypeStep';
-import { ChallengeStagesStep } from './steps/ChallengeStagesStep';
-import { ReviewScheduleStep } from './steps/ReviewScheduleStep';
-import { CompletionStep } from './steps/CompletionStep';
-import { ProgressIndicator } from './ProgressIndicator';
+import React, { useState } from "react";
+import { ArrowLeft, ArrowRight } from "lucide-react";
+import { ChallengeDetailsStep } from "./steps/ChallengeDetailsStep";
+import { ChallengeParticipantsStep } from "./steps/ChallengeParticipantsStep";
+import { ChallengeVisibilityStep } from "./steps/ChallengeVisibilityStep";
+import { ParticipantSelectionStep } from "./steps/ParticipantSelectionStep";
+import { TeamSetupStep } from "./steps/TeamSetupStep";
+import { ChallengeTypeStep } from "./steps/ChallengeTypeStep";
+import { ChallengeStagesStep } from "./steps/ChallengeStagesStep";
+import { ReviewScheduleStep } from "./steps/ReviewScheduleStep";
+import { CompletionStep } from "./steps/CompletionStep";
+import { ProgressIndicator } from "./ProgressIndicator";
 
 export interface ChallengeData {
   name: string;
@@ -17,9 +17,10 @@ export interface ChallengeData {
   banner?: File;
   allowLeaderboard: boolean;
   selectedPersona?: string;
+  selectedAdmins?: string[];
 
-  participantType: 'individual' | 'team';
-  visibility: 'public' | 'private';
+  participantType: "individual" | "team";
+  visibility: "public" | "private";
 
   selectedParticipants?: string[];
 
@@ -32,32 +33,39 @@ export interface ChallengeData {
     }>;
   };
 
-  challengeType: 'single-task' | 'multi-task';
+  challengeType: "single-task" | "multi-task";
 
   stages: Array<{
     title: string;
     description: string;
-    rewardType: 'points' | 'gems' | 'both';
+    rewardType: "points" | "gems" | "both";
     points?: number;
     gems?: number;
+    // Add these:
+    badgeTieringEnabled?: boolean;
+    badgeTiers?: Array<{
+      title: string;
+      range: string;
+      icon: File | null;
+    }>;
   }>;
 
-  publishOption: 'now' | 'scheduled';
+  publishOption: "now" | "scheduled";
   publishDate?: Date;
-  startOption: 'onPublish' | 'scheduled';
+  startOption: "onPublish" | "scheduled";
   startDate?: Date;
   endDate?: Date;
 }
 
 const STEPS = [
-  'Details',
-  'Participants',
-  'Visibility',
-  'Select Members',
-  'Team Setup',
-  'Type',
-  'Stages',
-  'Review'
+  "Details",
+  "Participants",
+  "Visibility",
+  "Select Members",
+  "Team Setup",
+  "Type",
+  "Stages",
+  "Review",
 ];
 
 const SUCCESS_STEP = 8;
@@ -65,22 +73,22 @@ const SUCCESS_STEP = 8;
 export const ChallengeCreationFlow: React.FC = () => {
   const [currentStep, setCurrentStep] = useState(0);
   const [challengeData, setChallengeData] = useState<ChallengeData>({
-    name: '',
-    description: '',
+    name: "",
+    description: "",
     allowLeaderboard: true,
-    participantType: 'individual',
-    visibility: 'public',
-    challengeType: 'single-task',
+    participantType: "individual",
+    visibility: "public",
+    challengeType: "single-task",
     stages: [
       {
-        title: '',
-        description: '',
-        rewardType: 'points',
-        points: 100
-      }
+        title: "",
+        description: "",
+        rewardType: "points",
+        points: 100,
+      },
     ],
-    publishOption: 'now',
-    startOption: 'onPublish'
+    publishOption: "now",
+    startOption: "onPublish",
   });
 
   const updateChallengeData = (updates: Partial<ChallengeData>) => {
@@ -102,22 +110,22 @@ export const ChallengeCreationFlow: React.FC = () => {
 
   const needsParticipantSelection = () => {
     return (
-      challengeData.visibility === 'private' &&
-      challengeData.participantType === 'individual'
+      challengeData.visibility === "private" &&
+      challengeData.participantType === "individual"
     );
   };
 
   const needsTeamSetup = () => {
-    return challengeData.participantType === 'team';
+    return challengeData.participantType === "team";
   };
 
   const getActiveSteps = () => {
     let steps = [...STEPS];
     if (!needsParticipantSelection()) {
-      steps = steps.filter((step) => step !== 'Select Members');
+      steps = steps.filter((step) => step !== "Select Members");
     }
     if (!needsTeamSetup()) {
-      steps = steps.filter((step) => step !== 'Team Setup');
+      steps = steps.filter((step) => step !== "Team Setup");
     }
     return steps;
   };
@@ -127,7 +135,7 @@ export const ChallengeCreationFlow: React.FC = () => {
     const currentStepName = activeSteps[currentStep];
 
     switch (currentStepName) {
-      case 'Details':
+      case "Details":
         return (
           <ChallengeDetailsStep
             data={challengeData}
@@ -135,7 +143,7 @@ export const ChallengeCreationFlow: React.FC = () => {
             onNext={handleNext}
           />
         );
-      case 'Participants':
+      case "Participants":
         return (
           <ChallengeParticipantsStep
             data={challengeData}
@@ -144,7 +152,7 @@ export const ChallengeCreationFlow: React.FC = () => {
             onBack={handleBack}
           />
         );
-      case 'Visibility':
+      case "Visibility":
         return (
           <ChallengeVisibilityStep
             data={challengeData}
@@ -153,7 +161,7 @@ export const ChallengeCreationFlow: React.FC = () => {
             onBack={handleBack}
           />
         );
-      case 'Select Members':
+      case "Select Members":
         return (
           <ParticipantSelectionStep
             data={challengeData}
@@ -162,7 +170,7 @@ export const ChallengeCreationFlow: React.FC = () => {
             onBack={handleBack}
           />
         );
-      case 'Team Setup':
+      case "Team Setup":
         return (
           <TeamSetupStep
             data={challengeData}
@@ -171,7 +179,7 @@ export const ChallengeCreationFlow: React.FC = () => {
             onBack={handleBack}
           />
         );
-      case 'Type':
+      case "Type":
         return (
           <ChallengeTypeStep
             data={challengeData}
@@ -180,7 +188,7 @@ export const ChallengeCreationFlow: React.FC = () => {
             onBack={handleBack}
           />
         );
-      case 'Stages':
+      case "Stages":
         return (
           <ChallengeStagesStep
             data={challengeData}
@@ -189,7 +197,7 @@ export const ChallengeCreationFlow: React.FC = () => {
             onBack={handleBack}
           />
         );
-      case 'Review':
+      case "Review":
         return (
           <ReviewScheduleStep
             data={challengeData}
@@ -206,22 +214,22 @@ export const ChallengeCreationFlow: React.FC = () => {
               onCreateNew={() => {
                 setCurrentStep(0);
                 setChallengeData({
-                  name: '',
-                  description: '',
+                  name: "",
+                  description: "",
                   allowLeaderboard: true,
-                  participantType: 'individual',
-                  visibility: 'public',
-                  challengeType: 'single-task',
+                  participantType: "individual",
+                  visibility: "public",
+                  challengeType: "single-task",
                   stages: [
                     {
-                      title: '',
-                      description: '',
-                      rewardType: 'points',
-                      points: 100
-                    }
+                      title: "",
+                      description: "",
+                      rewardType: "points",
+                      points: 100,
+                    },
                   ],
-                  publishOption: 'now',
-                  startOption: 'onPublish'
+                  publishOption: "now",
+                  startOption: "onPublish",
                 });
               }}
             />
@@ -240,7 +248,9 @@ export const ChallengeCreationFlow: React.FC = () => {
         {!isSuccess && (
           <div className="glass-card mx-6 mt-6 p-4">
             <div className="text-center">
-              <h2 className="text-lg font-semibold text-primary">Challenge Builder</h2>
+              <h2 className="text-lg font-semibold text-primary">
+                Challenge Builder
+              </h2>
               <p className="text-xs font-light text-muted-foreground">
                 Create your perfect challenge
               </p>

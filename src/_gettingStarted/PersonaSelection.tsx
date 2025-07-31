@@ -16,6 +16,12 @@ export default function PersonaSelection() {
   const [selectedAudiences, setSelectedAudiences] = useState<string[]>([]);
   const [uniqueCode, setUniqueCode] = useState("");
 
+  const selectedRole = localStorage.getItem("selectedRole");
+  const isAffiliated = localStorage.getItem("isAffiliated") === "true";
+
+  // Hides persona + audience if participant AND affiliated
+  const shouldShowPersonaSelection = !(selectedRole === "participant" && isAffiliated);
+
   const toggleAudience = (audience: string) => {
     setSelectedAudiences((prev) =>
       prev.includes(audience)
@@ -25,27 +31,23 @@ export default function PersonaSelection() {
   };
 
   const handleSubmit = (e: React.FormEvent) => {
-  e.preventDefault();
+    e.preventDefault();
 
-  // Store selections
-  localStorage.setItem("persona", persona);
-  localStorage.setItem("selectedAudiences", JSON.stringify(selectedAudiences));
-  localStorage.setItem("uniqueCode", uniqueCode);
+    // Store selections
+    localStorage.setItem("persona", persona);
+    localStorage.setItem("selectedAudiences", JSON.stringify(selectedAudiences));
+    localStorage.setItem("uniqueCode", uniqueCode);
 
-  const selectedRole = localStorage.getItem("selectedRole");
+    const allowedRoles = ["participant", "supporter", "admin", "affiliated"];
 
-  // Define roles that go to /my-challenges
-  const allowedRoles = ["participant", "supporter", "admin", "affiliated"];
-
-  if (selectedRole === "commander") {
-    navigate("/organization-info");
-  } else if (selectedRole && allowedRoles.includes(selectedRole)) {
-    navigate("/my-challenges");
-  } else {
-    console.warn("Unrecognized or missing role:", selectedRole);
-    // Optionally show error or fallback screen
-  }
-};
+    if (selectedRole === "commander") {
+      navigate("/organization-info");
+    } else if (selectedRole && allowedRoles.includes(selectedRole)) {
+      navigate("/my-challenges");
+    } else {
+      console.warn("Unrecognized or missing role:", selectedRole);
+    }
+  };
 
   return (
     <div className="mobile-container welcome-bg">
@@ -77,57 +79,62 @@ export default function PersonaSelection() {
                 </p>
               </div>
 
-              {/* Persona Selection */}
-              <div className="space-y-2">
-                <label className="text-sm text-muted-foreground font-light">
-                  Select your persona:
-                </label>
-                <div className="flex justify-between gap-2">
-                  {["Community", "Company", "Education"].map((p) => (
-                    <button
-                      key={p}
-                      type="button"
-                      className={`flex-1 text-sm border rounded-lg py-2 ${
-                        persona === p
-                          ? "border-primary text-primary font-medium"
-                          : "border-border text-muted-foreground"
-                      }`}
-                      onClick={() => {
-                        setPersona(p as any);
-                        setSelectedAudiences([]);
-                      }}
-                    >
-                      {p}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              {/* Audience Selection */}
-              {persona && (
-                <div className="space-y-2">
-                  <label className="text-sm text-muted-foreground font-light">
-                    Who is your target audience?
-                  </label>
-                  <div className="grid grid-cols-2 gap-2">
-                    {audienceOptions[persona].map((aud) => (
-                      <label key={aud} className="flex items-center space-x-2">
-                        <Checkbox
-                          checked={selectedAudiences.includes(aud)}
-                          onCheckedChange={() => toggleAudience(aud)}
-                        />
-                        <span className="text-sm text-foreground">{aud}</span>
-                      </label>
-                    ))}
+              {/* Persona and Audience Selection */}
+              {shouldShowPersonaSelection && (
+                <>
+                  {/* Persona Selection */}
+                  <div className="space-y-2">
+                    <label className="text-sm text-muted-foreground font-light">
+                      Select your persona:
+                    </label>
+                    <div className="flex justify-between gap-2">
+                      {["Community", "Company", "Education"].map((p) => (
+                        <button
+                          key={p}
+                          type="button"
+                          className={`flex-1 text-sm border rounded-lg py-2 ${
+                            persona === p
+                              ? "border-primary text-primary font-medium"
+                              : "border-border text-muted-foreground"
+                          }`}
+                          onClick={() => {
+                            setPersona(p as any);
+                            setSelectedAudiences([]);
+                          }}
+                        >
+                          {p}
+                        </button>
+                      ))}
+                    </div>
                   </div>
-                </div>
+
+                  {/* Audience Selection */}
+                  {persona && (
+                    <div className="space-y-2">
+                      <label className="text-sm text-muted-foreground font-light">
+                        Who is your target audience?
+                      </label>
+                      <div className="grid grid-cols-2 gap-2">
+                        {audienceOptions[persona].map((aud) => (
+                          <label key={aud} className="flex items-center space-x-2">
+                            <Checkbox
+                              checked={selectedAudiences.includes(aud)}
+                              onCheckedChange={() => toggleAudience(aud)}
+                            />
+                            <span className="text-sm text-foreground">{aud}</span>
+                          </label>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </>
               )}
 
               {/* Continue Button */}
-              <MobileButton 
-                type="submit" 
-                className="mt-6" 
-                disabled={!persona || !uniqueCode.trim()}
+              <MobileButton
+                type="submit"
+                className="mt-6"
+                disabled={!uniqueCode.trim()}
               >
                 Continue
               </MobileButton>

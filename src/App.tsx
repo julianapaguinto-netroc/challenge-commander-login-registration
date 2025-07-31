@@ -17,6 +17,7 @@ import MyChallengesPage from "./_myChallenges/MobileApp";
 import ChallengeCommander from "@/_myChallenges/ChallengeCommander";
 import SingleStageChallenge from "@/_challengeDetails/SingleStage";
 import MultiStageChallenge from "@/_challengeDetails/MultiStage";
+import OtpScreen from "./_gettingStarted/OTPVerification";
 
 const queryClient = new QueryClient();
 
@@ -30,6 +31,7 @@ const App = () => (
           <Route path="/" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/homescreen-commander" element={<Dashboard />} />
+          <Route path="/welcome" element={<Welcome />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="/user-role" element={<UserRoleSelection />} />
           <Route path="/affiliation-check" element={<AffiliationCheck />} />
@@ -40,6 +42,7 @@ const App = () => (
           <Route path="/challenge-commander" element={<ChallengeCommander />} />
           <Route path="/single-stage-challenge" element={<SingleStageChallenge />} />
           <Route path="/multi-stage-challenge" element={<MultiStageChallenge />} />
+          <Route path="/otp-verification" element={<OtpScreen />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { ArrowLeft, Plus, Trophy, Gem, Coins, Info, X } from 'lucide-react';
-import { ChallengeData } from '../ChallengeCreationFlow';
+import React, { useState } from "react";
+import { ArrowLeft, Plus, Trophy, Gem, Coins, Info, X } from "lucide-react";
+import { ChallengeData } from "../ChallengeCreationFlow";
 
 interface ChallengeStagesStepProps {
   data: ChallengeData;
@@ -13,65 +13,78 @@ export const ChallengeStagesStep: React.FC<ChallengeStagesStepProps> = ({
   data,
   onUpdate,
   onNext,
-  onBack
+  onBack,
 }) => {
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
   const validateAndNext = () => {
     const newErrors: { [key: string]: string } = {};
-    
+
     data.stages.forEach((stage, index) => {
       if (!stage.title.trim()) {
-        newErrors[`title_${index}`] = 'Stage title is required';
+        newErrors[`title_${index}`] = "Stage title is required";
       }
       if (!stage.description.trim()) {
-        newErrors[`description_${index}`] = 'Goal description is required';
+        newErrors[`description_${index}`] = "Goal description is required";
       }
-      if (stage.rewardType === 'points' && (!stage.points || stage.points <= 0)) {
-        newErrors[`points_${index}`] = 'Points must be greater than 0';
+      if (
+        stage.rewardType === "points" &&
+        (!stage.points || stage.points <= 0)
+      ) {
+        newErrors[`points_${index}`] = "Points must be greater than 0";
       }
-      if (stage.rewardType === 'gems' && (!stage.gems || stage.gems <= 0)) {
-        newErrors[`gems_${index}`] = 'Gems must be greater than 0';
+      if (stage.rewardType === "gems" && (!stage.gems || stage.gems <= 0)) {
+        newErrors[`gems_${index}`] = "Gems must be greater than 0";
       }
-      if (stage.rewardType === 'both') {
+      if (stage.rewardType === "both") {
         if (!stage.points || stage.points <= 0) {
-          newErrors[`points_${index}`] = 'Points must be greater than 0';
+          newErrors[`points_${index}`] = "Points must be greater than 0";
         }
         if (!stage.gems || stage.gems <= 0) {
-          newErrors[`gems_${index}`] = 'Gems must be greater than 0';
+          newErrors[`gems_${index}`] = "Gems must be greater than 0";
         }
       }
     });
-    
+
     setErrors(newErrors);
-    
+
     if (Object.keys(newErrors).length === 0) {
       onNext();
     } else {
-      // Scroll to first error
-      const firstErrorElement = document.querySelector('.text-destructive');
+      const firstErrorElement = document.querySelector(".text-destructive");
       if (firstErrorElement) {
-        firstErrorElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        firstErrorElement.scrollIntoView({
+          behavior: "smooth",
+          block: "center",
+        });
       }
     }
   };
 
-  const updateStage = (index: number, updates: Partial<typeof data.stages[0]>) => {
-    const updatedStages = data.stages.map((stage, i) => 
+  const updateStage = (
+    index: number,
+    updates: Partial<(typeof data.stages)[0]>
+  ) => {
+    const updatedStages = data.stages.map((stage, i) =>
       i === index ? { ...stage, ...updates } : stage
     );
     onUpdate({ stages: updatedStages });
   };
 
   const addStage = () => {
-    if (data.challengeType === 'multi-task') {
+    if (data.challengeType === "multi-task") {
       onUpdate({
-        stages: [...data.stages, {
-          title: '',
-          description: '',
-          rewardType: 'points',
-          points: 100
-        }]
+        stages: [
+          ...data.stages,
+          {
+            title: "",
+            description: "",
+            rewardType: "points",
+            points: 100,
+            badgeTieringEnabled: false,
+            badgeTiers: [],
+          },
+        ],
       });
     }
   };
@@ -83,13 +96,12 @@ export const ChallengeStagesStep: React.FC<ChallengeStagesStepProps> = ({
     }
   };
 
-  const isSingleTask = data.challengeType === 'single-task';
+  const isSingleTask = data.challengeType === "single-task";
 
   return (
     <div className="space-y-6">
-      {/* Header */}
       <div className="flex items-center space-x-4">
-        <button 
+        <button
           onClick={onBack}
           className="p-2 rounded-full bg-muted/50 hover:bg-muted transition-colors"
         >
@@ -97,24 +109,24 @@ export const ChallengeStagesStep: React.FC<ChallengeStagesStepProps> = ({
         </button>
         <div className="flex-1 text-center">
           <h1 className="text-2xl font-semibold text-foreground">
-            Challenge {isSingleTask ? 'Goal' : 'Stages'}
+            Challenge {isSingleTask ? "Goal" : "Stages"}
           </h1>
           <p className="text-sm font-light text-muted-foreground">
-            {isSingleTask ? 'Define your challenge goal' : 'Set up progressive stages'}
+            {isSingleTask
+              ? "Define your challenge goal"
+              : "Set up progressive stages"}
           </p>
         </div>
       </div>
 
-      {/* Stages */}
       <div className="space-y-4">
         {data.stages.map((stage, index) => (
           <div key={index} className="glass-card p-6 space-y-4">
-            {/* Stage Header */}
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-2">
                 <Trophy className="w-5 h-5 text-primary" />
                 <h3 className="text-lg font-medium text-foreground">
-                  {isSingleTask ? 'Challenge Goal' : `Stage ${index + 1}`}
+                  {isSingleTask ? "Challenge Goal" : `Stage ${index + 1}`}
                 </h3>
               </div>
               {!isSingleTask && data.stages.length > 1 && (
@@ -127,24 +139,28 @@ export const ChallengeStagesStep: React.FC<ChallengeStagesStepProps> = ({
               )}
             </div>
 
-            {/* Stage Title */}
             <div className="space-y-2">
               <label className="text-sm font-medium text-primary">
-                {isSingleTask ? 'Goal Title' : 'Stage Title'} *
+                {isSingleTask ? "Goal Title" : "Stage Title"} *
               </label>
               <input
                 type="text"
                 className="soft-input w-full"
-                placeholder={isSingleTask ? "e.g. Complete Daily Workout" : `e.g. Week ${index + 1} Target`}
+                placeholder={
+                  isSingleTask
+                    ? "e.g. Complete Daily Workout"
+                    : `e.g. Week ${index + 1} Target`
+                }
                 value={stage.title}
                 onChange={(e) => updateStage(index, { title: e.target.value })}
               />
               {errors[`title_${index}`] && (
-                <p className="text-xs text-destructive">{errors[`title_${index}`]}</p>
+                <p className="text-xs text-destructive">
+                  {errors[`title_${index}`]}
+                </p>
               )}
             </div>
 
-            {/* Goal Description */}
             <div className="space-y-2">
               <label className="text-sm font-medium text-primary">
                 Goal Description *
@@ -153,81 +169,284 @@ export const ChallengeStagesStep: React.FC<ChallengeStagesStepProps> = ({
                 className="soft-input w-full min-h-[80px] resize-none"
                 placeholder="Describe what participants need to achieve..."
                 value={stage.description}
-                onChange={(e) => updateStage(index, { description: e.target.value })}
+                onChange={(e) =>
+                  updateStage(index, { description: e.target.value })
+                }
               />
               {errors[`description_${index}`] && (
-                <p className="text-xs text-destructive">{errors[`description_${index}`]}</p>
+                <p className="text-xs text-destructive">
+                  {errors[`description_${index}`]}
+                </p>
               )}
             </div>
 
-            {/* Reward Type */}
             <div className="space-y-3">
               <label className="text-sm font-medium text-primary">
                 Rewards *
               </label>
-              
+
               <div className="grid grid-cols-3 gap-2">
                 {[
-                  { value: 'points', icon: Coins, label: 'Points', color: 'text-yellow-500' },
-                  { value: 'gems', icon: Gem, label: 'Gems', color: 'text-blue-500' },
-                  { value: 'both', icon: Trophy, label: 'Both', color: 'text-purple-500' }
+                  {
+                    value: "points",
+                    icon: Coins,
+                    label: "Points",
+                    color: "text-yellow-500",
+                  },
+                  {
+                    value: "gems",
+                    icon: Gem,
+                    label: "Gems",
+                    color: "text-blue-500",
+                  },
+                  {
+                    value: "both",
+                    icon: Trophy,
+                    label: "Both",
+                    color: "text-purple-500",
+                  },
                 ].map(({ value, icon: Icon, label, color }) => (
                   <button
                     key={value}
-                    onClick={() => updateStage(index, { rewardType: value as any })}
+                    onClick={() =>
+                      updateStage(index, { rewardType: value as any })
+                    }
                     className={`glass-card p-3 text-center transition-all duration-200 ${
-                      stage.rewardType === value 
-                        ? 'ring-2 ring-primary bg-primary-soft/20' 
-                        : 'hover:scale-105'
+                      stage.rewardType === value
+                        ? "ring-2 ring-primary bg-primary-soft/20"
+                        : "hover:scale-105"
                     }`}
                   >
                     <Icon className={`w-5 h-5 mx-auto mb-1 ${color}`} />
-                    <span className="text-xs font-medium text-foreground">{label}</span>
+                    <span className="text-xs font-medium text-foreground">
+                      {label}
+                    </span>
                   </button>
                 ))}
               </div>
 
-              {/* Reward Inputs */}
               <div className="grid grid-cols-2 gap-3">
-                {(stage.rewardType === 'points' || stage.rewardType === 'both') && (
+                {(stage.rewardType === "points" ||
+                  stage.rewardType === "both") && (
                   <div className="space-y-1">
-                    <label className="text-xs font-medium text-primary">Points</label>
+                    <label className="text-xs font-medium text-primary">
+                      Points
+                    </label>
                     <input
                       type="number"
                       min="1"
                       className="soft-input w-full"
                       placeholder="100"
-                      value={stage.points || ''}
-                      onChange={(e) => updateStage(index, { points: parseInt(e.target.value) || undefined })}
+                      value={stage.points || ""}
+                      onChange={(e) =>
+                        updateStage(index, {
+                          points: parseInt(e.target.value) || undefined,
+                        })
+                      }
                     />
                     {errors[`points_${index}`] && (
-                      <p className="text-xs text-destructive">{errors[`points_${index}`]}</p>
+                      <p className="text-xs text-destructive">
+                        {errors[`points_${index}`]}
+                      </p>
                     )}
                   </div>
                 )}
-                
-                {(stage.rewardType === 'gems' || stage.rewardType === 'both') && (
+
+                {(stage.rewardType === "gems" ||
+                  stage.rewardType === "both") && (
                   <div className="space-y-1">
-                    <label className="text-xs font-medium text-primary">Gems</label>
+                    <label className="text-xs font-medium text-primary">
+                      Gems
+                    </label>
                     <input
                       type="number"
                       min="1"
                       className="soft-input w-full"
                       placeholder="10"
-                      value={stage.gems || ''}
-                      onChange={(e) => updateStage(index, { gems: parseInt(e.target.value) || undefined })}
+                      value={stage.gems || ""}
+                      onChange={(e) =>
+                        updateStage(index, {
+                          gems: parseInt(e.target.value) || undefined,
+                        })
+                      }
                     />
                     {errors[`gems_${index}`] && (
-                      <p className="text-xs text-destructive">{errors[`gems_${index}`]}</p>
+                      <p className="text-xs text-destructive">
+                        {errors[`gems_${index}`]}
+                      </p>
                     )}
                   </div>
                 )}
               </div>
             </div>
+
+            {/* Badge Tiering Section */}
+            <div className="space-y-2 pt-4">
+              <div className="flex items-center justify-between">
+                <label className="text-sm font-medium text-primary">
+                  Badge Tiering Required?
+                </label>
+                <button
+                  role="switch"
+                  aria-checked={stage.badgeTieringEnabled || false}
+                  onClick={() =>
+                    updateStage(index, {
+                      badgeTieringEnabled: !stage.badgeTieringEnabled,
+                      badgeTiers: !stage.badgeTieringEnabled
+                        ? [{ title: "", range: "", icon: null }]
+                        : [],
+                    })
+                  }
+                  className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-300 ${
+                    stage.badgeTieringEnabled ? "bg-primary" : "bg-muted"
+                  }`}
+                >
+                  <span
+                    className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform duration-300 ${
+                      stage.badgeTieringEnabled
+                        ? "translate-x-6"
+                        : "translate-x-1"
+                    }`}
+                  />
+                </button>
+              </div>
+
+              {stage.badgeTieringEnabled && (
+                <div className="space-y-4">
+                  {stage.badgeTiers?.map((tier, tierIndex) => (
+                    <div
+                      key={tierIndex}
+                      className="glass-card p-4 space-y-2 border border-muted"
+                    >
+                      <div className="flex justify-between items-center">
+                        <h4 className="text-sm font-medium text-primary">
+                          Badge Tier {tierIndex + 1}
+                        </h4>
+                        <button
+                          onClick={() => {
+                            const newTiers = [...(stage.badgeTiers || [])];
+                            newTiers.splice(tierIndex, 1);
+                            updateStage(index, { badgeTiers: newTiers });
+                          }}
+                          className="text-destructive p-1 hover:bg-destructive/10 rounded"
+                        >
+                          <X className="w-4 h-4" />
+                        </button>
+                      </div>
+
+                      <div className="space-y-1">
+                        <label className="text-sm font-medium text-muted-foreground">
+                          Badge Title{" "}
+                          <span className="text-destructive">*</span>
+                        </label>
+                        <input
+                          type="text"
+                          className="soft-input w-full"
+                          placeholder="e.g. Gold"
+                          value={tier.title}
+                          onChange={(e) => {
+                            const newTiers = [...(stage.badgeTiers || [])];
+                            newTiers[tierIndex].title = e.target.value;
+                            updateStage(index, { badgeTiers: newTiers });
+                          }}
+                        />
+                      </div>
+
+                      <div className="space-y-1">
+                        <label className="text-sm font-medium text-muted-foreground">
+                          Points Range{" "}
+                          <span className="text-destructive">*</span>
+                        </label>
+                        <input
+                          type="text"
+                          className="soft-input w-full"
+                          placeholder="e.g. 100-200"
+                          value={tier.range}
+                          onChange={(e) => {
+                            const newTiers = [...(stage.badgeTiers || [])];
+                            newTiers[tierIndex].range = e.target.value;
+                            updateStage(index, { badgeTiers: newTiers });
+                          }}
+                        />
+                      </div>
+
+                      <div className="space-y-1">
+                        <label className="text-sm font-medium text-muted-foreground">
+                          Badge Icon <span className="text-destructive">*</span>
+                        </label>
+                        <label
+                          htmlFor={`badge-icon-${index}-${tierIndex}`}
+                          className="flex items-center justify-between px-4 py-2 border-2 border-dashed border-muted-dark rounded-xl bg-background hover:bg-muted/5 transition cursor-pointer"
+                        >
+                          <span className="text-sm text-muted-foreground">
+                            {tier.icon?.name || "Choose badge icon"}
+                          </span>
+                          <div className="text-primary text-sm font-medium underline">
+                            Browse
+                          </div>
+                          <input
+                            id={`badge-icon-${index}-${tierIndex}`}
+                            type="file"
+                            accept="image/*"
+                            className="hidden"
+                            onChange={(e) => {
+                              const file = e.target.files?.[0] || null;
+                              const newTiers = [...(stage.badgeTiers || [])];
+                              newTiers[tierIndex].icon = file;
+                              updateStage(index, { badgeTiers: newTiers });
+                            }}
+                          />
+                        </label>
+                      </div>
+
+                      {/* Image Preview + Delete */}
+                      {tier.icon && (
+                        <div className="flex items-center space-x-2 mt-2">
+                          <div className="relative w-10 h-10">
+                            <img
+                              src={URL.createObjectURL(tier.icon)}
+                              alt="Badge Preview"
+                              className="w-10 h-10 rounded object-cover border border-muted"
+                            />
+                            <button
+                              type="button"
+                              onClick={() => {
+                                const newTiers = [...(stage.badgeTiers || [])];
+                                newTiers[tierIndex].icon = null;
+                                updateStage(index, { badgeTiers: newTiers });
+                              }}
+                              className="absolute -top-2 -right-2 bg-background text-muted-foreground rounded-full p-0.5 shadow hover:text-destructive"
+                            >
+                              <X className="w-3 h-3" />
+                            </button>
+                          </div>
+                          <span className="text-xs text-muted-foreground italic line-clamp-1">
+                            {tier.icon.name}
+                          </span>
+                        </div>
+                      )}
+                    </div>
+                  ))}
+
+                  <button
+                    onClick={() =>
+                      updateStage(index, {
+                        badgeTiers: [
+                          ...(stage.badgeTiers || []),
+                          { title: "", range: "", icon: null },
+                        ],
+                      })
+                    }
+                    className="text-sm text-primary hover:underline"
+                  >
+                    + Add another tier
+                  </button>
+                </div>
+              )}
+            </div>
           </div>
         ))}
 
-        {/* Add Stage Button (Multi-task only) */}
         {!isSingleTask && (
           <button
             onClick={addStage}
@@ -241,7 +460,6 @@ export const ChallengeStagesStep: React.FC<ChallengeStagesStepProps> = ({
         )}
       </div>
 
-      {/* Next Button */}
       <button
         onClick={validateAndNext}
         className="bubble-button w-full py-4 text-white font-medium"
@@ -249,15 +467,14 @@ export const ChallengeStagesStep: React.FC<ChallengeStagesStepProps> = ({
         Continue
       </button>
 
-      {/* Tip */}
       <div className="glass-card p-4 bg-primary-soft/20">
         <div className="flex items-start space-x-3">
           <Info className="w-4 h-4 text-primary mt-0.5" />
           <p className="text-xs font-light text-muted-foreground">
-            <span className="font-medium text-primary">Tip:</span> {isSingleTask 
-              ? 'Make your goal specific and measurable for clear success criteria.'
-              : 'Design stages to gradually increase in difficulty for better engagement.'
-            }
+            <span className="font-medium text-primary">Tip:</span>{" "}
+            {isSingleTask
+              ? "Make your goal specific and measurable for clear success criteria."
+              : "Design stages to gradually increase in difficulty for better engagement."}
           </p>
         </div>
       </div>

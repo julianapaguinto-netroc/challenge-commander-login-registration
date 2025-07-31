@@ -28,9 +28,6 @@ export default {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
 
-        "cosmic-gold": "hsl(45, 90%, 45%)",
-        "space-blue": "hsl(210, 90%, 45%)",
-
         "mobile-bg": "hsl(var(--mobile-bg))",
         "social-hover": "hsl(var(--social-hover))",
 
@@ -51,6 +48,7 @@ export default {
         muted: {
           DEFAULT: "hsl(var(--muted))",
           foreground: "hsl(var(--muted-foreground))",
+          dark: "hsl(var(--muted-dark))",
         },
         accent: {
           DEFAULT: "hsl(var(--accent))",

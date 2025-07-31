@@ -20,7 +20,7 @@ export default function SignUp() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     // Handle signup logic here
-    navigate("/user-role");
+    navigate("/otp-verification");
   };
 
   return (
