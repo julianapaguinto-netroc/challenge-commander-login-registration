@@ -49,7 +49,7 @@ export default function AffiliatedCommandersSection() {
   ];
 
   return (
-    <section className="p-4 pb-8 relative">
+    <section className="relative px-3">
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-lg font-semibold text-primary font-poppins">
           Affiliated Challenge Commanders

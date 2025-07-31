@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { BusinessHeader } from "@/components/mobile/BusinessHeader";
 import { MarketingBanner } from "@/components/mobile/MarketingBanner";
 import { FellowAstronauts } from "@/components/mobile/FellowAstronauts";
@@ -7,7 +8,8 @@ import {
   type Challenge,
 } from "@/components/mobile/ChallengeCard";
 import { Button } from "@/components/ui/button";
-import { UserPlus, Menu } from "lucide-react";
+import { Menu, UserPlus, Award, Gift } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const currentChallenges: Challenge[] = [
   {
@@ -161,18 +163,64 @@ const pastChallenges: Challenge[] = [
 ];
 
 const ChallengeCommander = () => {
-  const handleViewDetails = (challengeId: string) => {
-    console.log("View challenge:", challengeId);
-    // Navigation or modal logic can go here
+    const navigate = useNavigate();
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
+
+  const handleViewDetails = (challenge: Challenge) => {
+    const path =
+      challenge.format === "Single"
+        ? "/single-stage-challenge"
+        : "/multi-stage-challenge";
+
+    navigate(path, { state: { challenge } });
   };
 
   return (
-    <div className="min-h-screen bg-background font-poppins w-full max-w-sm mx-auto px-1">
-      <div className="bg-white shadow-sm">
-        <div className="px-4 py-2 flex items-center justify-between">
-          <Button variant="ghost" size="icon" className="text-primary">
-            <Menu className="h-5 w-5" />
-          </Button>
+     <div className="relative min-h-screen bg-background font-poppins w-full max-w-sm mx-auto welcome-bg overflow-hidden">
+      {/* Header */}
+      <header className="flex items-center justify-between p-4 bg-background/80 backdrop-blur-sm border-b border-border">
+        <button
+          onClick={toggleSidebar}
+          className="p-2 rounded-xl hover:bg-secondary transition-colors"
+        >
+          <Menu className="w-6 h-6" />
+        </button>
+        <h1 className="font-medium">Challenge Commander</h1>
+        <div className="w-10" />
+      </header>
+
+      {/* Sidebar Overlay */}
+      {isSidebarOpen && (
+        <div
+          className="absolute inset-0 bg-black/50 z-40"
+          onClick={toggleSidebar}
+        />
+      )}
+
+      {/* Sidebar */}
+      <div
+        className={`absolute left-0 top-0 h-full w-3/4 max-w-xs bg-background border-r border-border z-50 transform transition-transform duration-300 ${
+          isSidebarOpen ? "translate-x-0" : "-translate-x-full"
+        }`}
+      >
+        <div className="p-6">
+          <div className="mb-8">
+            <h2 className="text-xl font-medium mb-2">Menu</h2>
+            <p className="text-sm text-muted-foreground font-light">
+              Welcome back!
+            </p>
+          </div>
+          <nav className="space-y-2">
+            <button className="w-full flex items-center gap-3 p-3 rounded-xl hover:bg-secondary transition-colors text-left">
+              <Award className="w-5 h-5 text-primary" />
+              <span className="font-light">Gamification</span>
+            </button>
+            <button className="w-full flex items-center gap-3 p-3 rounded-xl hover:bg-secondary transition-colors text-left">
+              <Gift className="w-5 h-5 text-primary" />
+              <span className="font-light">Rewards</span>
+            </button>
+          </nav>
         </div>
       </div>
 
@@ -203,7 +251,7 @@ const ChallengeCommander = () => {
               <ChallengeCard
                 key={challenge.id}
                 challenge={challenge}
-                onViewDetails={handleViewDetails}
+                onViewDetails={() => handleViewDetails(challenge)}
               />
             ))}
           </div>
@@ -221,7 +269,7 @@ const ChallengeCommander = () => {
               <ChallengeCard
                 key={challenge.id}
                 challenge={challenge}
-                onViewDetails={handleViewDetails}
+                onViewDetails={() => handleViewDetails(challenge)}
               />
             ))}
           </div>

@@ -9,7 +9,7 @@ interface GemsSectionProps {
 
 export function GemsSection({ totalGems, onUseGems }: GemsSectionProps) {
   return (
-    <div className="bg-gradient-to-br from-green-100 via-green-200 to-green-100 rounded-xl p-4 mb-4">
+    <div className="bg-gradient-to-br from-green-100 via-green-200 to-green-100 rounded-xl p-4 my-4">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <div className="w-8 h-8 rounded-full bg-green-600 flex items-center justify-center">

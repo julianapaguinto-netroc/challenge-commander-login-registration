@@ -13,7 +13,7 @@ export default function KeepGoingSection() {
       id: 1,
       title: "Challenge #1",
       commander: "Commander Jane",
-      status: "Private",
+      status: "active", // ← changed from "Private" and replaces progressStatus
       type: "Team Participant",
       participantCount: 5,
       category: "Go Green",
@@ -25,7 +25,7 @@ export default function KeepGoingSection() {
       id: 2,
       title: "Challenge #2",
       commander: "Coach John",
-      status: "Public",
+      status: "active",
       type: "Individual Participant",
       participantCount: 1,
       category: "Active",
@@ -37,11 +37,11 @@ export default function KeepGoingSection() {
       id: 3,
       title: "Challenge #3",
       commander: "Chef Emma",
-      status: "Private",
+      status: "active",
       type: "Supporter",
       participantCount: 0,
       category: "Culinary",
-      progress: 80,
+      progress: 99,
       challengeType: "Multiple",
       expiresIn: "2 days left",
     },
@@ -64,14 +64,12 @@ export default function KeepGoingSection() {
     return status === "Private" ? "badge-private" : "badge-public";
   };
 
-  const handleCardClick = (challengeType: string) => {
-    if (challengeType === "Single") {
-      navigate("/single-stage-challenge");
-    } else if (challengeType === "Multiple") {
-      navigate("/multi-stage-challenge");
-    } else {
-      console.warn("Unknown challenge type:", challengeType);
-    }
+  const handleCardClick = (challenge: any) => {
+    const route =
+      challenge.challengeType === "Single"
+        ? "/single-stage-challenge"
+        : "/multi-stage-challenge";
+    navigate(route, { state: { challenge } }); // 👈 pass full challenge object
   };
 
   return (
@@ -90,7 +88,7 @@ export default function KeepGoingSection() {
           <Card
             key={challenge.id}
             className="p-4 shadow-sm space-y-2 cursor-pointer hover:shadow-md transition"
-            onClick={() => handleCardClick(challenge.challengeType)}
+            onClick={() => handleCardClick(challenge)}
           >
             <div className="flex items-start justify-between">
               <h3 className="font-semibold text-base text-foreground">
@@ -118,6 +116,17 @@ export default function KeepGoingSection() {
               <span className={getStatusBadge(challenge.status)}>
                 {challenge.status}
               </span>
+
+              {challenge.status === "active" && (
+                <span className="bg-yellow-100 text-yellow-700 px-2 py-0.5 rounded text-xs">
+                  Continue Challenge
+                </span>
+              )}
+              {challenge.status === "completed" && (
+                <span className="bg-gray-200 text-gray-500 px-2 py-0.5 rounded text-xs">
+                  Completed
+                </span>
+              )}
             </div>
 
             <div className="space-y-1">
