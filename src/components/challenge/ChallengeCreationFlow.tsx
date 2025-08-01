@@ -251,7 +251,7 @@ export const ChallengeCreationFlow: React.FC = () => {
   const isSuccess = currentStep === SUCCESS_STEP;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-primary-soft/30 to-background">
+    <div className="min-h-screen">
       <div className="max-w-md mx-auto">
         {!isSuccess && (
           <div className="rounded-xl border border-border bg-card px-6 py-4 shadow-sm mt-6 mx-4">
