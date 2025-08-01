@@ -34,6 +34,17 @@ const availableAdmins = [
   { id: "3", name: "Charlie Lee" },
 ];
 
+const availableVerifiers = [
+  { id: "1", name: "Alice Johnson" },
+  { id: "2", name: "Bob Smith" },
+  { id: "3", name: "Charlie Lee" },
+];
+const availableSupporters = [
+  { id: "4", name: "Diana Prince" },
+  { id: "5", name: "Ethan Hunt" },
+  { id: "6", name: "Fiona Glenanne" },
+];
+
 export const ReviewScheduleStep: React.FC<ReviewScheduleStepProps> = ({
   data,
   onUpdate,
@@ -43,11 +54,18 @@ export const ReviewScheduleStep: React.FC<ReviewScheduleStepProps> = ({
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const [isCreating, setIsCreating] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const [verifierQuery, setVerifierQuery] = useState("");
+  const [supporterQuery, setSupporterQuery] = useState("");
 
   const filteredAdmins = availableAdmins.filter((admin) =>
     admin.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
-
+  const filteredVerifiers = availableVerifiers.filter((v) =>
+    v.name.toLowerCase().includes(verifierQuery.toLowerCase())
+  );
+  const filteredSupporters = availableSupporters.filter((s) =>
+    s.name.toLowerCase().includes(supporterQuery.toLowerCase())
+  );
   const validateAndCreate = () => {
     const newErrors: { [key: string]: string } = {};
 
@@ -221,7 +239,157 @@ export const ReviewScheduleStep: React.FC<ReviewScheduleStepProps> = ({
           })}
         </div>
       </div>
-      
+
+      {/* Verifier Selection */}
+      <div className="glass-card p-6 space-y-4">
+        <div className="flex items-center space-x-2">
+          <Users className="w-5 h-5 text-primary" />
+          <h3 className="text-lg font-medium text-foreground">
+            Assign Verifiers
+          </h3>
+        </div>
+        <p className="text-sm font-light text-muted-foreground">
+          Type to search and select verifiers for this challenge.
+        </p>
+        <div className="relative">
+          <input
+            type="text"
+            placeholder="Search verifiers..."
+            value={verifierQuery}
+            onChange={(e) => setVerifierQuery(e.target.value)}
+            className="soft-input w-full"
+          />
+          {verifierQuery.trim() !== "" && (
+            <div className="absolute z-10 mt-1 w-full rounded-md border bg-background shadow-lg max-h-60 overflow-auto">
+              {filteredVerifiers
+                .filter((v) => !data.selectedVerifiers?.includes(v.id))
+                .map((v) => (
+                  <button
+                    key={v.id}
+                    onClick={() => {
+                      const updated = new Set(data.selectedVerifiers || []);
+                      updated.add(v.id);
+                      onUpdate({ selectedVerifiers: Array.from(updated) });
+                      setVerifierQuery("");
+                    }}
+                    className="w-full text-left px-3 py-2 hover:bg-muted text-sm"
+                  >
+                    {v.name}
+                  </button>
+                ))}
+              {filteredVerifiers.length === 0 && (
+                <div className="px-3 py-2 text-sm text-muted-foreground">
+                  No matches
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+        <div className="flex flex-wrap gap-2 mt-2">
+          {data.selectedVerifiers?.map((verifierId) => {
+            const verifier = availableVerifiers.find(
+              (v) => v.id === verifierId
+            );
+            if (!verifier) return null;
+            return (
+              <div
+                key={verifier.id}
+                className="flex items-center px-2 py-1 bg-muted text-foreground text-sm rounded-full space-x-1"
+              >
+                <span>{verifier.name}</span>
+                <button
+                  className="text-muted-foreground hover:text-destructive"
+                  onClick={() =>
+                    onUpdate({
+                      selectedVerifiers: data.selectedVerifiers?.filter(
+                        (id) => id !== verifier.id
+                      ),
+                    })
+                  }
+                >
+                  ×
+                </button>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Supporter Selection */}
+      <div className="glass-card p-6 space-y-4">
+        <div className="flex items-center space-x-2">
+          <Users className="w-5 h-5 text-primary" />
+          <h3 className="text-lg font-medium text-foreground">
+            Assign Supporters
+          </h3>
+        </div>
+        <p className="text-sm font-light text-muted-foreground">
+          Type to search and select supporters for this challenge.
+        </p>
+        <div className="relative">
+          <input
+            type="text"
+            placeholder="Search supporters..."
+            value={supporterQuery}
+            onChange={(e) => setSupporterQuery(e.target.value)}
+            className="soft-input w-full"
+          />
+          {supporterQuery.trim() !== "" && (
+            <div className="absolute z-10 mt-1 w-full rounded-md border bg-background shadow-lg max-h-60 overflow-auto">
+              {filteredSupporters
+                .filter((s) => !data.selectedSupporters?.includes(s.id))
+                .map((s) => (
+                  <button
+                    key={s.id}
+                    onClick={() => {
+                      const updated = new Set(data.selectedSupporters || []);
+                      updated.add(s.id);
+                      onUpdate({ selectedSupporters: Array.from(updated) });
+                      setSupporterQuery("");
+                    }}
+                    className="w-full text-left px-3 py-2 hover:bg-muted text-sm"
+                  >
+                    {s.name}
+                  </button>
+                ))}
+              {filteredSupporters.length === 0 && (
+                <div className="px-3 py-2 text-sm text-muted-foreground">
+                  No matches
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+        <div className="flex flex-wrap gap-2 mt-2">
+          {data.selectedSupporters?.map((supporterId) => {
+            const supporter = availableSupporters.find(
+              (s) => s.id === supporterId
+            );
+            if (!supporter) return null;
+            return (
+              <div
+                key={supporter.id}
+                className="flex items-center px-2 py-1 bg-muted text-foreground text-sm rounded-full space-x-1"
+              >
+                <span>{supporter.name}</span>
+                <button
+                  className="text-muted-foreground hover:text-destructive"
+                  onClick={() =>
+                    onUpdate({
+                      selectedSupporters: data.selectedSupporters?.filter(
+                        (id) => id !== supporter.id
+                      ),
+                    })
+                  }
+                >
+                  ×
+                </button>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
       {/* Schedule Settings */}
       <div className="glass-card p-6 space-y-6">
         <div className="flex items-center space-x-2">

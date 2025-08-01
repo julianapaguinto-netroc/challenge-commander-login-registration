@@ -22,6 +22,9 @@ export interface ChallengeData {
   participantType: "individual" | "team";
   visibility: "public" | "private";
 
+  selectedVerifiers?: string[];
+  selectedSupporters?: string[];
+
   selectedParticipants?: string[];
 
   teamConfig?: {
@@ -48,6 +51,11 @@ export interface ChallengeData {
       range: string;
       icon: File | null;
     }>;
+    enableRewards?: boolean;
+    rewardSystemType?: "points" | "non-points";
+    rewardSystemInput?: string; // e.g. "100 points"
+    pointsCounterOnceOff?: string;
+    pointsCapPerStaff?: string;
   }>;
 
   publishOption: "now" | "scheduled";
@@ -246,12 +254,12 @@ export const ChallengeCreationFlow: React.FC = () => {
     <div className="min-h-screen bg-gradient-to-br from-background via-primary-soft/30 to-background">
       <div className="max-w-md mx-auto">
         {!isSuccess && (
-          <div className="glass-card mx-6 mt-6 p-4">
+          <div className="rounded-xl border border-border bg-card px-6 py-4 shadow-sm mt-6 mx-4">
             <div className="text-center">
               <h2 className="text-lg font-semibold text-primary">
                 Challenge Builder
               </h2>
-              <p className="text-xs font-light text-muted-foreground">
+              <p className="text-xs text-muted-foreground font-light">
                 Create your perfect challenge
               </p>
             </div>
@@ -273,5 +281,6 @@ export const ChallengeCreationFlow: React.FC = () => {
     </div>
   );
 };
+
 
 export default ChallengeCreationFlow;

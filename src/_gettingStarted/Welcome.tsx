@@ -1,13 +1,20 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 
 export default function WelcomeScreen() {
   const navigate = useNavigate();
 
+  // Preload Lottie file for faster first paint
+  useEffect(() => {
+    const preload = new Image();
+    preload.src =
+      "https://lottie.host/ad44948a-6f80-4444-80da-3348bb910eec/7CmRPdoHB0.lottie";
+  }, []);
+
   return (
-    <div className="flex flex-col items-center justify-center h-screen bg-primary-soft text-center px-6">
-      <div className="w-[220px] sm:w-[280px] h-[220px] sm:h-[280px]">
+    <div className="flex flex-col items-center justify-center h-screen bg-primary-soft text-center px-6 animate-fade-in">
+      <div className="w-40 h-40 sm:w-60 sm:h-60 flex items-center justify-center">
         <DotLottieReact
           src="https://lottie.host/ad44948a-6f80-4444-80da-3348bb910eec/7CmRPdoHB0.lottie"
           loop

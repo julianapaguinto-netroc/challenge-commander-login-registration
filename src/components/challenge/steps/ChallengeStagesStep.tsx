@@ -83,6 +83,12 @@ export const ChallengeStagesStep: React.FC<ChallengeStagesStepProps> = ({
             points: 100,
             badgeTieringEnabled: false,
             badgeTiers: [],
+
+            enableRewards: false,
+            rewardSystemType: undefined,
+            rewardSystemInput: "",
+            pointsCounterOnceOff: undefined,
+            pointsCapPerStaff: undefined,
           },
         ],
       });
@@ -280,6 +286,143 @@ export const ChallengeStagesStep: React.FC<ChallengeStagesStepProps> = ({
               </div>
             </div>
 
+            {/* Reward Toggle */}
+            <div className="mt-6 space-y-2">
+              <div className="flex items-center justify-between">
+                <label className="text-sm font-medium text-primary">
+                  Enable Challenge Reward Type?
+                </label>
+                <button
+                  type="button"
+                  className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border transition-colors duration-200 ease-in-out ${
+                    stage.enableRewards
+                      ? "bg-primary border-primary/70"
+                      : "bg-muted border-border"
+                  }`}
+                  role="switch"
+                  aria-checked={stage.enableRewards}
+                  onClick={() =>
+                    updateStage(index, { enableRewards: !stage.enableRewards })
+                  }
+                >
+                  <span
+                    className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow transition duration-200 ease-in-out ${
+                      stage.enableRewards ? "translate-x-5" : "translate-x-1"
+                    }`}
+                  />
+                </button>
+              </div>
+
+              {stage.enableRewards && (
+                <div className="space-y-3 mt-4">
+                  <div className="flex flex-wrap gap-6 text-sm ml-1">
+                    <label className="flex items-center gap-2">
+                      <input
+                        type="radio"
+                        value="points"
+                        checked={stage.rewardSystemType === "points"}
+                        onChange={() =>
+                          updateStage(index, {
+                            rewardSystemType: "points",
+                            rewardSystemInput: "",
+                          })
+                        }
+                        className="form-radio text-primary"
+                      />
+                      Reward Point System
+                    </label>
+                    <label className="flex items-center gap-2">
+                      <input
+                        type="radio"
+                        value="non-points"
+                        checked={stage.rewardSystemType === "non-points"}
+                        onChange={() =>
+                          updateStage(index, {
+                            rewardSystemType: "non-points",
+                            rewardSystemInput: "",
+                          })
+                        }
+                        className="form-radio text-primary"
+                      />
+                      Non-Reward Point System
+                    </label>
+                  </div>
+
+                  {stage.rewardSystemType === "points" && (
+                    <input
+                      type="number"
+                      placeholder="Enter base points"
+                      className="w-full max-w-sm px-3 py-2 rounded-md border border-border bg-background text-sm"
+                      value={stage.rewardSystemInput}
+                      onChange={(e) =>
+                        updateStage(index, {
+                          rewardSystemInput: e.target.value,
+                        })
+                      }
+                    />
+                  )}
+
+                  {stage.rewardSystemType === "non-points" && (
+                    <select
+                      className="w-full max-w-sm px-3 py-2 rounded-md border border-border bg-background text-sm"
+                      value={stage.rewardSystemInput}
+                      onChange={(e) =>
+                        updateStage(index, {
+                          rewardSystemInput: e.target.value,
+                        })
+                      }
+                    >
+                      <option value="">Select a non-reward option</option>
+                      {/* You can insert options here */}
+                    </select>
+                  )}
+                </div>
+              )}
+            </div>
+
+            {/* Constant Display: Points Counter Options */}
+            <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label className="text-sm font-medium text-primary block mb-1">
+                  Will points stop after 1st achievement?
+                </label>
+                <select
+                  className="w-full px-3 py-2 rounded-md border border-border bg-background text-sm"
+                  value={stage.pointsCounterOnceOff || ""}
+                  onChange={(e) =>
+                    updateStage(index, {
+                      pointsCounterOnceOff: e.target.value as
+                        | "once"
+                        | "recurring",
+                    })
+                  }
+                >
+                  <option value="">Select</option>
+                  <option value="once">Once-Off</option>
+                  <option value="recurring">Recurring</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="text-sm font-medium text-primary block mb-1">
+                  Limit maximum points per staff?
+                </label>
+                <select
+                  className="w-full px-3 py-2 rounded-md border border-border bg-background text-sm"
+                  value={stage.pointsCapPerStaff || ""}
+                  onChange={(e) =>
+                    updateStage(index, {
+                      pointsCapPerStaff: e.target.value as "yes" | "no",
+                    })
+                  }
+                >
+                  <option value="">Select</option>
+                  <option value="yes">Yes</option>
+                  <option value="no">No</option>
+                </select>
+              </div>
+            </div>
+
             {/* Badge Tiering Section */}
             <div className="space-y-2 pt-4">
               <div className="flex items-center justify-between">
@@ -287,8 +430,14 @@ export const ChallengeStagesStep: React.FC<ChallengeStagesStepProps> = ({
                   Badge Tiering Required?
                 </label>
                 <button
+                  type="button"
+                  className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border transition-colors duration-200 ease-in-out ${
+                    stage.badgeTieringEnabled
+                      ? "bg-primary border-primary/70"
+                      : "bg-muted border-border"
+                  }`}
                   role="switch"
-                  aria-checked={stage.badgeTieringEnabled || false}
+                  aria-checked={stage.badgeTieringEnabled}
                   onClick={() =>
                     updateStage(index, {
                       badgeTieringEnabled: !stage.badgeTieringEnabled,
@@ -297,14 +446,11 @@ export const ChallengeStagesStep: React.FC<ChallengeStagesStepProps> = ({
                         : [],
                     })
                   }
-                  className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-300 ${
-                    stage.badgeTieringEnabled ? "bg-primary" : "bg-muted"
-                  }`}
                 >
                   <span
-                    className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform duration-300 ${
+                    className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow transition duration-200 ease-in-out ${
                       stage.badgeTieringEnabled
-                        ? "translate-x-6"
+                        ? "translate-x-5"
                         : "translate-x-1"
                     }`}
                   />

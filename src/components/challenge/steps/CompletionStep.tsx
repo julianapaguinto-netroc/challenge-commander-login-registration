@@ -1,6 +1,7 @@
 import React from 'react';
 import { Sparkles, Trophy, Share2, Plus } from 'lucide-react';
 import { ChallengeData } from '../ChallengeCreationFlow';
+import { useNavigate } from 'react-router-dom'; // ✅ navigation hook
 
 interface CompletionStepProps {
   data: ChallengeData;
@@ -9,21 +10,21 @@ interface CompletionStepProps {
 
 export const CompletionStep: React.FC<CompletionStepProps> = ({
   data,
-  onCreateNew
+  onCreateNew,
 }) => {
+  const navigate = useNavigate(); // ✅ initialize navigation
+
   return (
-    <div className="space-y-6 text-center">
+    <div className="space-y-6 text-center pt-5">
       {/* Success Animation Area */}
       <div className="glass-card p-8 relative overflow-hidden">
-        {/* Animated Background */}
         <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-primary-glow/20 to-primary/10 animate-pulse"></div>
-        
-        {/* Success Icon */}
+
         <div className="relative z-10 space-y-4">
           <div className="w-20 h-20 mx-auto rounded-full bg-gradient-to-br from-primary to-primary-glow flex items-center justify-center shadow-lg animate-bounce">
             <Sparkles className="w-10 h-10 text-white" />
           </div>
-          
+
           <div className="space-y-2">
             <h1 className="text-3xl font-bold text-foreground">
               🎉 Challenge Created!
@@ -41,7 +42,7 @@ export const CompletionStep: React.FC<CompletionStepProps> = ({
           <Trophy className="w-5 h-5 text-primary" />
           <h3 className="text-lg font-medium text-foreground">{data.name}</h3>
         </div>
-        
+
         <div className="grid grid-cols-2 gap-4 text-center">
           <div className="glass-card p-3 bg-primary-soft/20">
             <div className="text-lg font-semibold text-primary">
@@ -51,7 +52,7 @@ export const CompletionStep: React.FC<CompletionStepProps> = ({
               {data.challengeType === 'single-task' ? 'Goal' : 'Stages'}
             </div>
           </div>
-          
+
           <div className="glass-card p-3 bg-primary-soft/20">
             <div className="text-lg font-semibold text-primary">
               {data.participantType === 'individual' ? 'Individual' : 'Team'}
@@ -82,8 +83,8 @@ export const CompletionStep: React.FC<CompletionStepProps> = ({
             <span>Share Challenge</span>
           </div>
         </button>
-        
-        <button 
+
+        <button
           onClick={onCreateNew}
           className="glass-card w-full py-4 border-2 border-primary/30 hover:border-primary/50 transition-colors text-primary font-medium"
         >
@@ -91,6 +92,14 @@ export const CompletionStep: React.FC<CompletionStepProps> = ({
             <Plus className="w-5 h-5" />
             <span>Create Another Challenge</span>
           </div>
+        </button>
+
+        {/* ✅ Redirect Button to HomeScreen Commander */}
+        <button
+          onClick={() => navigate('/homescreen-commander')}
+          className="text-sm text-primary underline hover:text-primary/80 transition mt-2"
+        >
+          ← Back to Home
         </button>
       </div>
 
