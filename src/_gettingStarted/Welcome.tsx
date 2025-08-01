@@ -13,7 +13,7 @@ export default function WelcomeScreen() {
   }, []);
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen bg-primary-soft text-center px-6 animate-fade-in">
+    <div className="flex flex-col items-center justify-center h-screen text-center px-6 animate-fade-in">
       <div className="w-40 h-40 sm:w-60 sm:h-60 flex items-center justify-center">
         <DotLottieReact
           src="https://lottie.host/ad44948a-6f80-4444-80da-3348bb910eec/7CmRPdoHB0.lottie"
