@@ -8,18 +8,18 @@ const audienceOptions = {
   Community: ["Youth Leaders", "Parents", "Religious Leaders", "Volunteers"],
   Company: ["Employees", "Team Leads", "HR", "Managers"],
   Education: ["Students", "Teachers", "School Admins", "Clubs"],
+  Marketplace: ["Consumers"],
 };
 
 export default function PersonaSelection() {
   const navigate = useNavigate();
-  const [persona, setPersona] = useState<"Community" | "Company" | "Education" | "">("");
+  const [persona, setPersona] = useState<"Community" | "Company" | "Education" | "Marketplace" | "">("");
   const [selectedAudiences, setSelectedAudiences] = useState<string[]>([]);
   const [uniqueCode, setUniqueCode] = useState("");
 
   const selectedRole = localStorage.getItem("selectedRole");
   const isAffiliated = localStorage.getItem("isAffiliated") === "true";
 
-  // Hides persona + audience if participant AND affiliated
   const shouldShowPersonaSelection = !(selectedRole === "participant" && isAffiliated);
 
   const toggleAudience = (audience: string) => {
@@ -33,7 +33,6 @@ export default function PersonaSelection() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Store selections
     localStorage.setItem("persona", persona);
     localStorage.setItem("selectedAudiences", JSON.stringify(selectedAudiences));
     localStorage.setItem("uniqueCode", uniqueCode);
@@ -82,33 +81,30 @@ export default function PersonaSelection() {
               {/* Persona and Audience Selection */}
               {shouldShowPersonaSelection && (
                 <>
-                  {/* Persona Selection */}
+                  {/* Persona Select Dropdown */}
                   <div className="space-y-2">
                     <label className="text-sm text-muted-foreground font-light">
                       Select your persona:
                     </label>
-                    <div className="flex justify-between gap-2">
-                      {["Community", "Company", "Education"].map((p) => (
-                        <button
-                          key={p}
-                          type="button"
-                          className={`flex-1 text-sm border rounded-lg py-2 ${
-                            persona === p
-                              ? "border-primary text-primary font-medium"
-                              : "border-border text-muted-foreground"
-                          }`}
-                          onClick={() => {
-                            setPersona(p as any);
-                            setSelectedAudiences([]);
-                          }}
-                        >
+                    <select
+                      className="w-full border border-border rounded-lg py-2 px-3 text-sm text-foreground bg-background"
+                      value={persona}
+                      onChange={(e) => {
+                        setPersona(e.target.value as any);
+                        setSelectedAudiences([]);
+                      }}
+                      required
+                    >
+                      <option value="">-- Choose Persona --</option>
+                      {Object.keys(audienceOptions).map((p) => (
+                        <option key={p} value={p}>
                           {p}
-                        </button>
+                        </option>
                       ))}
-                    </div>
+                    </select>
                   </div>
 
-                  {/* Audience Selection */}
+                  {/* Audience Checkboxes */}
                   {persona && (
                     <div className="space-y-2">
                       <label className="text-sm text-muted-foreground font-light">

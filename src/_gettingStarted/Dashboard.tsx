@@ -165,6 +165,7 @@ const pastChallenges: Challenge[] = [
 export default function Dashboard() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const navigate = useNavigate();
+  const persona = localStorage.getItem("persona") ?? "";
 
   const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
 
@@ -291,7 +292,11 @@ export default function Dashboard() {
         <div className="fixed inset-0 flex justify-center items-end pointer-events-none pb-5 z-50">
           <div className="relative w-full max-w-sm px-6 pb-6 pointer-events-auto">
             <button
-              onClick={() => navigate("/create-challenge")}
+              onClick={() =>
+                persona === "Marketplace"
+                  ? navigate("/create-marketplace-challenge")
+                  : navigate("/create-challenge")
+              }
               className="absolute right-0 bottom-0 bg-primary text-white p-4 rounded-full shadow-xl transition-transform group"
             >
               <Plus className="w-6 h-6 transition-transform group-hover:rotate-90" />
