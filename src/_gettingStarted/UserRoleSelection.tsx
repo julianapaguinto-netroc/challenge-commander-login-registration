@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { MobileButton } from "@/components/ui/mobile-button";
 import { useNavigate } from "react-router-dom";
-import { User, Crown, Shield, Heart } from "lucide-react";
+import { User, Crown, Shield, Heart, ShoppingCart  } from "lucide-react";
 
 const roles = [
   {
@@ -27,6 +27,12 @@ const roles = [
     title: "Supporter",
     description: "Support and encourage challenge participants",
     icon: Heart,
+  },
+  {
+    id: "consumer",
+    title: "Consumer",
+    description: "Engage with challenges as a consumer of marketplace products",
+    icon: ShoppingCart,
   },
 ];
 

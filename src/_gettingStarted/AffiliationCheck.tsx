@@ -13,7 +13,10 @@ export default function AffiliationCheck() {
 
       const selectedRole = localStorage.getItem("selectedRole");
 
-      if (selectedRole === "commander" && isAffiliated === false) {
+      if (selectedRole === "consumer") {
+        // Navigate consumer users regardless of affiliation
+        navigate("/consumer-dashboard");
+      } else if (selectedRole === "commander" && isAffiliated === false) {
         navigate("/homescreen-commander");
       } else if (isAffiliated) {
         navigate("/persona-selection");
