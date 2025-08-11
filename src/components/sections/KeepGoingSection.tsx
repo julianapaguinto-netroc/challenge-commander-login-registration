@@ -13,7 +13,7 @@ export default function KeepGoingSection() {
       id: 1,
       title: "Challenge #1",
       commander: "Commander Jane",
-      status: "active", // ← changed from "Private" and replaces progressStatus
+      status: "active",
       type: "Team Participant",
       participantCount: 5,
       category: "Go Green",
@@ -111,7 +111,10 @@ export default function KeepGoingSection() {
               </span>
               <span className="badge-public">{challenge.type}</span>
               <span className="badge-private">
-                {challenge.challengeType} Challenge
+                {challenge.challengeType === "Multiple"
+                  ? "Multi-stage"
+                  : challenge.challengeType}{" "}
+                Challenge
               </span>
               <span className={getStatusBadge(challenge.status)}>
                 {challenge.status}

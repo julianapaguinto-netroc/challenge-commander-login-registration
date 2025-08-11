@@ -216,78 +216,79 @@ const SingleStageChallenge = () => {
             <ChevronRight className="w-4 h-4" />
           </button>
 
-            {/* Overlay content */}
-            <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-4">
-              <div className="flex items-center gap-3 mb-2">
-                <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
-                  <span className="text-white text-xs font-semibold">EW</span>
-                </div>
-                <div>
-                  <h1 className="text-white font-semibold text-lg">
-                    Challenge #1
-                  </h1>
-                  <p className="text-white/80 text-sm">by EcoWarriors</p>
-                </div>
+          {/* Overlay content */}
+          <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-4">
+            <div className="flex items-center gap-3 mb-2">
+              <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
+                <span className="text-white text-xs font-semibold">EW</span>
               </div>
-              <div className="flex gap-2">
-                <Button
-                  variant="status"
-                  className="bg-primary/20 text-white border-white/30 text-xs px-2 py-1 h-6"
-                >
-                  Team Challenge
-                </Button>
-                <Button
-                  variant="status"
-                  className="bg-primary/20 text-white border-white/30 text-xs px-2 py-1 h-6"
-                >
-                  Single Goal
-                </Button>
+              <div>
+                <h1 className="text-white font-semibold text-lg">
+                  Challenge #1
+                </h1>
+                <p className="text-white/80 text-sm">by EcoWarriors</p>
               </div>
+            </div>
+            <div className="flex gap-2">
+              <Button
+                variant="status"
+                className="bg-primary/20 text-white border-white/30 text-xs px-2 py-1 h-6"
+              >
+                Team Challenge
+              </Button>
+              <Button
+                variant="status"
+                className="bg-primary/20 text-white border-white/30 text-xs px-2 py-1 h-6"
+              >
+                Single Goal
+              </Button>
             </div>
           </div>
         </div>
+      </div>
 
-        {/* Tab Navigation */}
-        <Tabs
-          value={activeTab}
-          onValueChange={setActiveTab}
-          className="w-full pt-1 pb-2"
-        >
-          <TabsList className="w-full grid grid-cols-4 bg-white shadow-sm">
-            <TabsTrigger value="details" className="text-xs">
-              Details
-            </TabsTrigger>
-            <TabsTrigger value="status" className="text-xs">
-              Status
-            </TabsTrigger>
-            <TabsTrigger value="participate" className="text-xs">
-              Participate
-            </TabsTrigger>
-            <TabsTrigger value="messages" className="text-xs">
-              Messages
-            </TabsTrigger>
-          </TabsList>
-          
-          <div className="px-4">
+      {/* Tab Navigation */}
+      <Tabs
+        value={activeTab}
+        onValueChange={setActiveTab}
+        className="w-full pt-1 pb-2"
+      >
+        <TabsList className="w-full grid grid-cols-4 bg-white shadow-sm">
+          <TabsTrigger value="details" className="text-xs">
+            Details
+          </TabsTrigger>
+          <TabsTrigger value="status" className="text-xs">
+            Status
+          </TabsTrigger>
+          <TabsTrigger value="participate" className="text-xs">
+            Participate
+          </TabsTrigger>
+          <TabsTrigger value="messages" className="text-xs">
+            Messages
+          </TabsTrigger>
+        </TabsList>
 
+        <div className="px-4">
           {/* Details Tab */}
           <TabsContent value="details" className="mobile-padding space-y-4">
             {/* Play Challenge Button */}
-            <Button
-              disabled={isCompleted}
-              onClick={() => {
-                if (!isCompleted) {
-                  navigate("/play"); // or your actual gameplay route
-                }
-              }}
-              className={`mt-6 w-full ${
-                isCompleted
-                  ? "bg-muted text-muted-foreground cursor-not-allowed"
-                  : ""
-              }`}
-            >
-              {buttonLabel}
-            </Button>
+            {challenge.type !== "Supporter" && (
+              <Button
+                disabled={isCompleted}
+                onClick={() => {
+                  if (!isCompleted) {
+                    navigate("/play");
+                  }
+                }}
+                className={`mt-6 w-full ${
+                  isCompleted
+                    ? "bg-muted text-muted-foreground cursor-not-allowed"
+                    : ""
+                }`}
+              >
+                {buttonLabel}
+              </Button>
+            )}
 
             <Card className="p-4 shadow-card">
               <div className="space-y-3">
@@ -723,10 +724,9 @@ const SingleStageChallenge = () => {
               ))}
             </div>
           </TabsContent>
-          </div>
-        </Tabs>
-      
-      </div>
+        </div>
+      </Tabs>
+    </div>
   );
 };
 

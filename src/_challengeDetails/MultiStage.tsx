@@ -425,21 +425,23 @@ const MultiStageChallenge = () => {
           {/* Details Tab */}
           <TabsContent value="details" className="mobile-padding space-y-4">
             {/* Play Challenge Button */}
-            <Button
-              disabled={isCompleted}
-              onClick={() => {
-                if (!isCompleted) {
-                  navigate("/play", { state: { challenge } });
-                }
-              }}
-              className={`mt-6 w-full ${
-                isCompleted
-                  ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-                  : ""
-              }`}
-            >
-              {buttonLabel}
-            </Button>
+            {challenge?.type  !== "Supporter" && (
+              <Button
+                disabled={isCompleted}
+                onClick={() => {
+                  if (!isCompleted) {
+                    navigate("/play", { state: { challenge } });
+                  }
+                }}
+                className={`mt-6 w-full ${
+                  isCompleted
+                    ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                    : ""
+                }`}
+              >
+                {buttonLabel}
+              </Button>
+            )}
 
             <Card className="p-4 shadow-card">
               <div className="space-y-3">
@@ -703,7 +705,7 @@ const MultiStageChallenge = () => {
                   </Button>
                   <Button variant="outline" size="sm" className="flex-1">
                     <Copy className="w-4 h-4" />
-                     QR Code
+                    QR Code
                   </Button>
                 </div>
 

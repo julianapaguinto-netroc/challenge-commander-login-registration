@@ -12,7 +12,7 @@ export default function AstronautsPage() {
       id: 1,
       name: "Commander Sarah",
       avatar: "👩‍🚀",
-      tier: "Tier 3 • Navigator",
+      tier: "Tier 3 • Pilot",
       points: 1250,
       activeChallenges: 3,
       status: "online",
