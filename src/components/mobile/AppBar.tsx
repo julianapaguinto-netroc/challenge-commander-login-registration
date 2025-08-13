@@ -4,6 +4,8 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Menu, X, Trophy, Gift } from "lucide-react";
 import clsx from "clsx";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import userAvatar from "@/assets/astronaut-character.png";
 
 export default function Appbar({ children }: { children: React.ReactNode }) {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
@@ -33,7 +35,23 @@ export default function Appbar({ children }: { children: React.ReactNode }) {
             <X className="w-5 h-5" />
           </button>
         </div>
-        <nav className="flex flex-col p-4 space-y-2">
+        {/* Profile section */}
+        <div className="p-4">
+          <Link to="/profile" onClick={toggleSidebar} className="block" aria-label="Open profile">
+            <div className="flex flex-col items-center">
+              <Avatar className="h-16 w-16 ring-2 ring-primary/20 shadow-card">
+                <AvatarImage src={userAvatar} alt="User profile picture" loading="lazy" />
+                <AvatarFallback>U</AvatarFallback>
+              </Avatar>
+              <div className="mt-3 w-full rounded-xl bg-card text-card-foreground p-3 shadow-card">
+                <p className="text-sm font-semibold text-center">Your Name</p>
+                <p className="text-xs text-muted-foreground text-center">Member</p>
+              </div>
+            </div>
+          </Link>
+        </div>
+
+        <nav className="flex flex-col p-4 pt-0 space-y-2">
           <Link
             to="/gamification"
             className="flex items-center gap-2 text-sm font-medium hover:text-primary transition-colors"

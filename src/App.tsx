@@ -19,6 +19,7 @@ import SingleStageChallenge from "@/_challengeDetails/SingleStage";
 import MultiStageChallenge from "@/_challengeDetails/MultiStage";
 import OtpScreen from "./_gettingStarted/OTPVerification";
 import PreSignupInvite from "./_gettingStarted/PreSignupInvite";
+import Profile from "./_profile/Profile";
 
 const queryClient = new QueryClient();
 
@@ -32,6 +33,7 @@ const App = () => (
           <Route path="/" element={<Login />} />
           <Route path="/pre-signup-invite" element={<PreSignupInvite />} />
           <Route path="/signup" element={<SignUp />} />
+          <Route path="/welcome" element={<Welcome />} />
           <Route path="/homescreen-commander" element={<Dashboard />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="/user-role" element={<UserRoleSelection />} />
@@ -44,6 +46,7 @@ const App = () => (
           <Route path="/single-stage-challenge" element={<SingleStageChallenge />} />
           <Route path="/multi-stage-challenge" element={<MultiStageChallenge />} />
           <Route path="/otp-verification" element={<OtpScreen />} />
+          <Route path="/profile" element={<Profile />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
