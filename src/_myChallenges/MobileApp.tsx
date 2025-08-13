@@ -18,7 +18,9 @@ import MyChallengesPage from "./MyChallengesPage";
 import RecommendedPage from "./RecommendedPage";
 import AstronautsPage from "./AstronautsPage";
 import astronautImage from "@/assets/astronaut-character.png";
+import profilePicture from "@/assets/profile.jpg";
 import MyActivitiesPage from "./MyActivities";
+import Appbar from "@/components/mobile/AppBar";
 
 type TabType = "my-challenges" | "recommended" | "astronauts" | "my-activities";
 
@@ -47,25 +49,38 @@ export default function MobileApp() {
           isSidebarOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
-        <div className="p-6">
-          {/* Profile card */}
-          <Link to="/profile" onClick={toggleSidebar} className="block" aria-label="Open profile">
-            <div className="flex flex-col items-center">
-              <Avatar className="h-16 w-16 ring-2 ring-primary/20 shadow-card">
-                <AvatarImage src={astronautImage} alt="User profile picture" loading="lazy" />
-                <AvatarFallback>U</AvatarFallback>
-              </Avatar>
-              <div className="mt-3 w-full rounded-xl bg-card text-card-foreground p-3 shadow-card">
-                <p className="text-sm font-semibold text-center">Your Name</p>
-                <p className="text-xs text-muted-foreground text-center">Member</p>
-              </div>
+        {/* Profile Header */}
+        <div className="bg-gradient-to-r from-primary to-primary/50 text-primary-foreground rounded-b-2xl shadow-md px-6 pt-8 pb-6">
+          <Link
+            to="/profile"
+            onClick={toggleSidebar}
+            aria-label="Open profile"
+            className="flex items-center gap-4"
+          >
+            <Avatar className="h-16 w-16 ring-4 ring-white shadow-lg">
+              <AvatarImage
+                src={profilePicture}
+                alt="User profile picture"
+                loading="lazy"
+              />
+              <AvatarFallback>U</AvatarFallback>
+            </Avatar>
+            <div>
+              <p className="text-sm font-semibold leading-tight">
+                Enid Sinclair
+              </p>
+              <p className="text-xs text-primary-foreground/80">Participant</p>
             </div>
           </Link>
+        </div>
 
-          {/* Menu */}
-          <div className="mt-6 mb-4">
+        {/* Menu */}
+        <div className="p-6">
+          <div className="mt-2 mb-4">
             <h2 className="text-xl font-medium mb-2">Menu</h2>
-            <p className="text-sm text-muted-foreground font-light">Welcome back!</p>
+            <p className="text-sm text-muted-foreground font-light">
+              Welcome back!
+            </p>
           </div>
           <nav className="space-y-2">
             <button className="w-full flex items-center gap-3 p-3 rounded-xl hover:bg-secondary transition-colors text-left">

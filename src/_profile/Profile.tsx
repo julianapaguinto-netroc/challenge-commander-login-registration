@@ -1,143 +1,126 @@
-import { useEffect, useMemo, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Separator } from "@/components/ui/separator";
-import { useToast } from "@/components/ui/use-toast";
-import userAvatar from "@/assets/astronaut-character.png";
+import React from "react";
+import { FaUser, FaEnvelope, FaPhone, FaHome, FaLock } from "react-icons/fa";
+import profilePicture from "@/assets/profile.jpg";
+import headerImage from "@/assets/header-bg.png"; // Your header image
 
-export default function Profile() {
-  const navigate = useNavigate();
-  const { toast } = useToast();
-
-  const [isEditing, setIsEditing] = useState(false);
-  const [form, setForm] = useState({
-    name: "Your Name",
-    role: "Member",
-    email: "you@example.com",
-    phone: "",
-  });
-
-  useEffect(() => {
-    document.title = "Profile | User Account";
-
-    // Meta description
-    const desc = document.querySelector('meta[name="description"]');
-    const content = "View and edit your profile, account info, and security settings.";
-    if (desc) desc.setAttribute("content", content);
-    else {
-      const m = document.createElement("meta");
-      m.name = "description";
-      m.content = content;
-      document.head.appendChild(m);
-    }
-
-    // Canonical
-    const href = window.location.href;
-    let link: HTMLLinkElement | null = document.querySelector('link[rel="canonical"]');
-    if (!link) {
-      link = document.createElement("link");
-      link.rel = "canonical";
-      document.head.appendChild(link);
-    }
-    link.setAttribute("href", href);
-  }, []);
-
-  const onChange = (key: keyof typeof form) => (e: React.ChangeEvent<HTMLInputElement>) =>
-    setForm((f) => ({ ...f, [key]: e.target.value }));
-
-  const disableSave = useMemo(() => !form.name || !form.email, [form.name, form.email]);
-
-  const handleSave = () => {
-    setIsEditing(false);
-    toast({ title: "Profile updated", description: "Your changes have been saved." });
-  };
-
-  const handleCancel = () => setIsEditing(false);
-
+const ProfileCard = () => {
   return (
-    <div className="min-h-screen bg-background text-foreground">
-      <header className="sticky top-0 z-40 border-b border-border bg-background/80 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="px-4 py-3">
-          <h1 className="text-lg font-semibold">User Profile</h1>
+    <div className="max-w-xs mx-auto font-poppins">
+      {/* Header with background image */}
+      <div
+        className="relative h-60 flex justify-center"
+        style={{
+          backgroundImage: `url(${headerImage})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
+      >
+        {/* Profile Picture */}
+        <div className="absolute top-10 flex flex-col items-center">
+          <img
+            src={profilePicture}
+            alt="Profile"
+            className="w-24 h-24 rounded-full object-cover shadow-md"
+          />
+          <h2 className="mt-2 text-white font-semibold text-lg">
+            Enid Sinclair
+          </h2>
+          <p className="text-white text-sm">Participant</p>
         </div>
-      </header>
+      </div>
 
-      <main className="px-4 py-6 space-y-6">
-        {/* Hero */}
-        <section className="flex flex-col items-center text-center">
-          <Avatar className="h-24 w-24 ring-2 ring-primary/20 shadow-card">
-            <AvatarImage src={userAvatar} alt="User profile picture" loading="lazy" />
-            <AvatarFallback>U</AvatarFallback>
-          </Avatar>
-          <h2 className="mt-4 text-xl font-semibold">{form.name}</h2>
-          <p className="text-sm text-muted-foreground">{form.role}</p>
+      {/* Stats Card Overlay */}
+      <div className="relative z-10 -mt-10 mx-4 bg-white shadow-lg rounded-xl flex justify-around py-3">
+        <div className="text-center">
+          <p className="text-lg font-bold text-red-500">450</p>
+          <p className="text-xs text-gray-500">Points</p>
+        </div>
+        <div className="text-center">
+          <p className="text-lg font-bold text-red-500">10</p>
+          <p className="text-xs text-gray-500">Badges</p>
+        </div>
+        <div className="text-center">
+          <p className="text-lg font-bold text-red-500">60</p>
+          <p className="text-xs text-gray-500">GEMs</p>
+        </div>
+      </div>
 
-          <div className="mt-4 flex items-center gap-2">
-            {!isEditing ? (
-              <Button size="sm" onClick={() => setIsEditing(true)} aria-label="Edit profile">
-                Edit Profile
-              </Button>
-            ) : (
-              <div className="flex items-center gap-2">
-                <Button size="sm" onClick={handleSave} disabled={disableSave} aria-label="Save changes">
-                  Save Changes
-                </Button>
-                <Button size="sm" variant="secondary" onClick={handleCancel} aria-label="Cancel editing">
-                  Cancel
-                </Button>
-              </div>
-            )}
-            <Button size="sm" variant="outline" onClick={() => toast({ title: "Password", description: "Use your security screen to change password." })} aria-label="Change password">
-              Change Password
-            </Button>
+      {/* Personal Info */}
+      <div className="p-4 bg-white rounded-xl mt-4 shadow-sm">
+        <div className="flex justify-between items-center mb-3">
+          <h3 className="font-semibold text-gray-700">Personal info</h3>
+          <button className="text-red-500 text-sm font-medium">Edit</button>
+        </div>
+        <div className="space-y-4 text-gray-700 text-sm">
+          <div>
+            <p className="text-xs text-gray-400">Full Name</p>
+            <p className="flex items-center gap-3">
+              <FaUser className="text-gray-500" />
+              Enid Sinclair
+            </p>
           </div>
-        </section>
+          <div>
+            <p className="text-xs text-gray-400">Email Address</p>
+            <p className="flex items-center gap-3">
+              <FaEnvelope className="text-gray-500" />
+              enid@gmail.com
+            </p>
+          </div>
+          <div>
+            <p className="text-xs text-gray-400">Phone Number</p>
+            <p className="flex items-center gap-3">
+              <FaPhone className="text-gray-500" />
+              +1 201 555-0123
+            </p>
+          </div>
+          <div>
+            <p className="text-xs text-gray-400">Address</p>
+            <p className="flex items-center gap-3">
+              <FaHome className="text-gray-500" />
+              70 Rainey Street, Apartment 146, Austin TX 78701
+            </p>
+          </div>
+        </div>
+      </div>
 
-        <Separator />
+      {/* Account Info */}
+      <div className="bg-white p-4 rounded-xl mt-4 shadow-sm">
+        <h3 className="font-semibold text-gray-700 mb-3">Account Info</h3>
+        <div className="space-y-4 text-gray-700 text-sm">
+          <div>
+            <p className="text-xs text-gray-400">Role</p>
+            <p className="flex items-center gap-3">
+              <FaUser className="text-gray-500" />
+              Participant
+            </p>
+          </div>
+          <div>
+            <p className="text-xs text-gray-400">Password</p>
+            <p className="flex items-center gap-3">
+              <FaLock className="text-gray-500" />
+              ••••••••
+            </p>
+          </div>
+        </div>
 
-        {/* Account Info */}
-        <article className="space-y-4" aria-label="Account information">
-          <Card className="shadow-card">
-            <CardHeader>
-              <CardTitle className="text-base">Account Information</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="grid gap-2">
-                <Label htmlFor="name">Full Name</Label>
-                <Input id="name" value={form.name} onChange={onChange("name")} disabled={!isEditing} placeholder="Your Name" />
-              </div>
-              <div className="grid gap-2">
-                <Label htmlFor="role">Role / Title</Label>
-                <Input id="role" value={form.role} onChange={onChange("role")} disabled={!isEditing} placeholder="Member" />
-              </div>
-              <div className="grid gap-2">
-                <Label htmlFor="email">Email</Label>
-                <Input id="email" type="email" value={form.email} onChange={onChange("email")} disabled={!isEditing} placeholder="you@example.com" />
-              </div>
-              <div className="grid gap-2">
-                <Label htmlFor="phone">Phone</Label>
-                <Input id="phone" type="tel" value={form.phone} onChange={onChange("phone")} disabled={!isEditing} placeholder="" />
-              </div>
-            </CardContent>
-          </Card>
+        <div className="mt-4 space-y-2">
+          <button className="w-full py-2 bg-gray-200 rounded-lg text-sm font-medium">
+            Edit Role
+          </button>
+          <button className="w-full py-2 bg-gray-200 rounded-lg text-sm font-medium">
+            Change Password
+          </button>
+        </div>
+      </div>
 
-          <Card className="shadow-card">
-            <CardHeader>
-              <CardTitle className="text-base">Security</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              <Button variant="outline" className="w-full" onClick={() => toast({ title: "Password", description: "Password change coming soon." })}>
-                Change Password
-              </Button>
-              <Button variant="destructive" className="w-full" onClick={() => navigate("/")}>Log out</Button>
-            </CardContent>
-          </Card>
-        </article>
-      </main>
+      {/* Logout */}
+      <div className="p-4">
+        <button className="w-full py-2 bg-primary text-white rounded-lg font-medium">
+          Logout
+        </button>
+      </div>
     </div>
   );
-}
+};
+
+export default ProfileCard;

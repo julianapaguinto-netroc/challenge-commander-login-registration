@@ -44,8 +44,8 @@ export default function Appbar({ children }: { children: React.ReactNode }) {
                 <AvatarFallback>U</AvatarFallback>
               </Avatar>
               <div className="mt-3 w-full rounded-xl bg-card text-card-foreground p-3 shadow-card">
-                <p className="text-sm font-semibold text-center">Your Name</p>
-                <p className="text-xs text-muted-foreground text-center">Member</p>
+                <p className="text-sm font-semibold text-center">Enid Sinclair</p>
+                <p className="text-xs text-muted-foreground text-center">Participant</p>
               </div>
             </div>
           </Link>

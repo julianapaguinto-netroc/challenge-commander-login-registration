@@ -33,7 +33,7 @@ export default function AffiliationCheck() {
                 Organization Affiliation
               </h1>
               <p className="text-sm text-muted-foreground font-light">
-                Are you affiliated with any company, organization, or community?
+                Are you affiliated with any company, organization, SMEs, or community?
               </p>
             </div>
 
@@ -59,7 +59,7 @@ export default function AffiliationCheck() {
                   <div className="flex-1 text-left">
                     <h3 className="font-medium text-foreground">Yes</h3>
                     <p className="text-xs text-muted-foreground font-light">
-                      I'm part of a company, organization, or community
+                      I'm part of a company, organization, SMEs, or community
                     </p>
                   </div>
                 </div>
@@ -86,8 +86,7 @@ export default function AffiliationCheck() {
                   <div className="flex-1 text-left">
                     <h3 className="font-medium text-foreground">No</h3>
                     <p className="text-xs text-muted-foreground font-light">
-                      I'm participating as an individual/I will create my own
-                      challenges
+                      I'm participating as a public challenge creator/public participant
                     </p>
                   </div>
                 </div>

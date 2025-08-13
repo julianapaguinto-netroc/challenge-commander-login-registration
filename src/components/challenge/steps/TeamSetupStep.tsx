@@ -46,77 +46,6 @@ export const TeamSetupStep: React.FC<TeamSetupStepProps> = ({
     "Sister Jennifer Taylor",
     "Brother William Moore",
     "Elder Susan Jackson",
-    "Minister Thomas White",
-    "Sister Patricia Harris",
-    "Brother Christopher Lee",
-    "Deacon Daniel Clark",
-    "Sister Nancy Lewis",
-    "Brother Joseph Walker",
-    "Minister Karen Hall",
-    "Elder Charles Allen",
-    "Sister Helen Young",
-    "Brother Kenneth King",
-    "Minister Dorothy Wright",
-    "Deacon Steven Lopez",
-    "Sister Sharon Hill",
-    "Brother Edward Scott",
-    "Minister Carol Green",
-    "Elder George Adams",
-    "Sister Betty Baker",
-    "Brother Frank Gonzalez",
-    "Minister Ruth Nelson",
-    "Deacon Richard Carter",
-    "Sister Donna Mitchell",
-    "Brother Anthony Perez",
-    "Minister Shirley Roberts",
-    "Elder Kevin Turner",
-    "Sister Sandra Phillips",
-    "Brother Jason Campbell",
-    "Minister Cynthia Parker",
-    "Deacon Timothy Evans",
-    "Sister Deborah Edwards",
-    "Brother Ronald Collins",
-    "Minister Angela Stewart",
-    "Elder Brian Morris",
-    "Sister Kimberly Reed",
-    "Brother Jeremy Cook",
-    "Minister Teresa Bailey",
-    "Deacon Scott Rivera",
-    "Sister Catherine Cooper",
-    "Brother Jordan Richardson",
-    "Minister Pamela Cox",
-    "Elder Philip Ward",
-    "Sister Rebecca Torres",
-    "Brother Benjamin Peterson",
-    "Minister Janet Gray",
-    "Deacon Victor Ramirez",
-    "Sister Michelle James",
-    "Brother Samuel Watson",
-    "Minister Carolyn Brooks",
-    "Elder Gregory Kelly",
-    "Sister Amy Sanders",
-    "Brother Adam Price",
-    "Minister Frances Bennett",
-    "Deacon Wayne Wood",
-    "Sister Christina Barnes",
-    "Brother Sean Ross",
-    "Minister Lori Henderson",
-    "Elder Ralph Coleman",
-    "Sister Victoria Jenkins",
-    "Brother Marcus Perry",
-    "Minister Diane Powell",
-    "Deacon Albert Long",
-    "Sister Stephanie Patterson",
-    "Brother Carl Hughes",
-    "Minister Gloria Flores",
-    "Elder Roy Washington",
-    "Sister Lauren Butler",
-    "Brother Douglas Simmons",
-    "Minister Joyce Foster",
-    "Deacon Gerald Sanders",
-    "Sister Rachel Alexander",
-    "Brother Henry Bryant",
-    "Minister Beverly Russell",
   ];
 
   const getFilteredMembers = (teamIndex: number) => {
@@ -185,6 +114,19 @@ export const TeamSetupStep: React.FC<TeamSetupStepProps> = ({
       },
     });
   };
+
+  const presetGroups = [
+    {
+      name: "Team Ang",
+      members: ["employee 4", "employee 5", "employee 6"],
+      logo: "/logos/youth-ministry.png",
+    },
+    {
+      name: "KDJ Company",
+      members: ["employee 1", "employee 2", "employee 3"],
+      logo: "/logos/choir-group.png",
+    },
+  ];
 
   return (
     <div className="space-y-6">
@@ -287,7 +229,7 @@ export const TeamSetupStep: React.FC<TeamSetupStepProps> = ({
             <div className="text-center space-y-2 mb-6">
               <Users className="w-12 h-12 text-primary mx-auto" />
               <h3 className="text-lg font-medium text-foreground">
-                Create Teams Manually
+                Create Teams
               </h3>
               <p className="text-sm font-light text-muted-foreground">
                 Add teams and assign users to each one
@@ -480,6 +422,53 @@ export const TeamSetupStep: React.FC<TeamSetupStepProps> = ({
                   <span className="font-medium">Add Another Team</span>
                 </div>
               </button>
+
+              <p className="text-center text-sm font-light text-primary">OR </p>
+              <p className="text-center text-sm font-light text-muted-foreground">
+                Use a preset group to quickly add teams and members
+              </p>
+
+              <select
+                className="soft-input w-full mb-4"
+                onChange={(e) => {
+                  const selected = presetGroups.find(
+                    (p) => p.name === e.target.value
+                  );
+                  if (selected) {
+                    onUpdate({
+                      teamConfig: {
+                        ...data.teamConfig,
+                        teams: [
+                          ...(data.teamConfig?.teams || []),
+                          {
+                            name: selected.name,
+                            members: selected.members,
+                          },
+                        ],
+                      },
+                    });
+                    // Optional: preload logo in teamLogos state
+                    fetch(selected.logo)
+                      .then((res) => res.blob())
+                      .then((blob) => {
+                        const file = new File([blob], selected.name + ".png", {
+                          type: blob.type,
+                        });
+                        setTeamLogos((prev) => ({
+                          ...prev,
+                          [data.teamConfig?.teams?.length || 0]: file,
+                        }));
+                      });
+                  }
+                }}
+              >
+                <option value="">-- Select Preset Group --</option>
+                {presetGroups.map((group) => (
+                  <option key={group.name} value={group.name}>
+                    {group.name}
+                  </option>
+                ))}
+              </select>
             </div>
 
             {errors.teams && (
@@ -505,7 +494,7 @@ export const TeamSetupStep: React.FC<TeamSetupStepProps> = ({
             <span className="font-medium text-primary">Tip:</span>{" "}
             {isPublicTeam
               ? "For public team challenges, teams will be formed automatically when church members join the challenge."
-              : "Search for community members by name or role (Pastor, Youth Leader, Deacon, etc.) to add them to teams."}
+              : "Search for employee by name or role to add them to teams."}
           </p>
         </div>
       </div>

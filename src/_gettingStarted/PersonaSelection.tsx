@@ -8,11 +8,12 @@ const audienceOptions = {
   Community: ["Youth Leaders", "Parents", "Religious Leaders", "Volunteers"],
   Company: ["Employees", "Team Leads", "HR", "Managers"],
   Education: ["Students", "Teachers", "School Admins", "Clubs"],
+  SMEs: ["Employees"],
 };
 
 export default function PersonaSelection() {
   const navigate = useNavigate();
-  const [persona, setPersona] = useState<"Community" | "Company" | "Education" | "">("");
+  const [persona, setPersona] = useState<"Community" | "Company" | "Education" | "SMEs" | "">("");
   const [selectedAudiences, setSelectedAudiences] = useState<string[]>([]);
   const [uniqueCode, setUniqueCode] = useState("");
 
@@ -87,12 +88,12 @@ export default function PersonaSelection() {
                     <label className="text-sm text-muted-foreground font-light">
                       Select your persona:
                     </label>
-                    <div className="flex justify-between gap-2">
-                      {["Community", "Company", "Education"].map((p) => (
+                    <div className="flex overflow-x-auto justify-center gap-2 sm:flex-wrap sm:overflow-visible">
+                      {["Community", "Company", "Education", "SMEs"].map((p) => (
                         <button
                           key={p}
                           type="button"
-                          className={`flex-1 text-sm border rounded-lg py-2 ${
+                           className={`flex-shrink-0 min-w-[110px] px-3 py-2 text-sm border rounded-lg text-center ${
                             persona === p
                               ? "border-primary text-primary font-medium"
                               : "border-border text-muted-foreground"
