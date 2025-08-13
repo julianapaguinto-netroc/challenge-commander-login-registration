@@ -1,9 +1,15 @@
 import React from "react";
 import { FaUser, FaEnvelope, FaPhone, FaHome, FaLock } from "react-icons/fa";
+import { ChevronLeft } from "lucide-react"; // For the back arrow
 import profilePicture from "@/assets/profile.jpg";
-import headerImage from "@/assets/header-bg.png"; // Your header image
+import headerImage from "@/assets/header-bg.png";
 
 const ProfileCard = () => {
+  const handleBack = () => {
+    // Replace this with your navigation logic
+    window.history.back();
+  };
+
   return (
     <div className="max-w-xs mx-auto font-poppins">
       {/* Header with background image */}
@@ -15,6 +21,14 @@ const ProfileCard = () => {
           backgroundPosition: "center",
         }}
       >
+        {/* Navigation Back Button */}
+        <button
+          onClick={handleBack}
+          className="absolute top-4 left-4 bg-black/40 p-2 rounded-full text-white hover:bg-black/60 transition"
+        >
+          <ChevronLeft size={20} />
+        </button>
+
         {/* Profile Picture */}
         <div className="absolute top-10 flex flex-col items-center">
           <img

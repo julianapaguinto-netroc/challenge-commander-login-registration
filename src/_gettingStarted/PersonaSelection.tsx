@@ -8,12 +8,13 @@ const audienceOptions = {
   Community: ["Youth Leaders", "Parents", "Religious Leaders", "Volunteers"],
   Company: ["Employees", "Team Leads", "HR", "Managers"],
   Education: ["Students", "Teachers", "School Admins", "Clubs"],
+  Marketplace: ["Consumers"],
   SMEs: ["Employees"],
 };
 
 export default function PersonaSelection() {
   const navigate = useNavigate();
-  const [persona, setPersona] = useState<"Community" | "Company" | "Education" | "SMEs" | "">("");
+  const [persona, setPersona] = useState<"Community" | "Company" | "Education" | "Marketplace" | "SMEs" | "">("");
   const [selectedAudiences, setSelectedAudiences] = useState<string[]>([]);
   const [uniqueCode, setUniqueCode] = useState("");
 
@@ -89,7 +90,7 @@ export default function PersonaSelection() {
                       Select your persona:
                     </label>
                     <div className="flex overflow-x-auto justify-center gap-2 sm:flex-wrap sm:overflow-visible">
-                      {["Community", "Company", "Education", "SMEs"].map((p) => (
+                      {["Community", "Company", "Education", "Marketplace", "SMEs"].map((p) => (
                         <button
                           key={p}
                           type="button"

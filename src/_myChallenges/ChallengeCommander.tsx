@@ -10,6 +10,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Menu, UserPlus, Award, Gift } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import Appbar from "@/components/mobile/AppBar";
 
 const currentChallenges: Challenge[] = [
   {
@@ -163,7 +164,7 @@ const pastChallenges: Challenge[] = [
 ];
 
 const ChallengeCommander = () => {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
 
@@ -177,104 +178,60 @@ const ChallengeCommander = () => {
   };
 
   return (
-     <div className="relative min-h-screen bg-background font-poppins w-full max-w-sm mx-auto welcome-bg overflow-hidden">
-      {/* Header */}
-      <header className="flex items-center justify-between p-4 bg-background/80 backdrop-blur-sm border-b border-border">
-        <button
-          onClick={toggleSidebar}
-          className="p-2 rounded-xl hover:bg-secondary transition-colors"
-        >
-          <Menu className="w-6 h-6" />
-        </button>
-        <h1 className="font-medium">Challenge Commander</h1>
-        <div className="w-10" />
-      </header>
+    <div className="relative min-h-screen bg-background font-poppins w-full max-w-sm mx-auto welcome-bg overflow-hidden">
+      <Appbar>
+        <div className="max-w-md mx-auto p-4 space-y-6">
+          <BusinessHeader />
+          <MarketingBanner />
+          <FellowAstronauts />
+          <SpecialRewards />
 
-      {/* Sidebar Overlay */}
-      {isSidebarOpen && (
-        <div
-          className="absolute inset-0 bg-black/50 z-40"
-          onClick={toggleSidebar}
-        />
-      )}
+          {/* Current Challenges */}
+          <div className="space-y-4">
+            <div className="flex items-center justify-between">
+              <h2 className="text-xl font-poppins font-normal text-foreground flex items-center gap-2">
+                <span>🚀</span>
+                Current Challenges
+              </h2>
+              <Button
+                size="sm"
+                className="bg-primary hover:bg-primary/90 text-primary-foreground"
+              >
+                <UserPlus className="h-4 w-4 mr-1" />
+                Invite
+              </Button>
+            </div>
 
-      {/* Sidebar */}
-      <div
-        className={`absolute left-0 top-0 h-full w-3/4 max-w-xs bg-background border-r border-border z-50 transform transition-transform duration-300 ${
-          isSidebarOpen ? "translate-x-0" : "-translate-x-full"
-        }`}
-      >
-        <div className="p-6">
-          <div className="mb-8">
-            <h2 className="text-xl font-medium mb-2">Menu</h2>
-            <p className="text-sm text-muted-foreground font-light">
-              Welcome back!
-            </p>
+            <div className="grid grid-cols-1 gap-4">
+              {currentChallenges.map((challenge) => (
+                <ChallengeCard
+                  key={challenge.id}
+                  challenge={challenge}
+                  onViewDetails={() => handleViewDetails(challenge)}
+                />
+              ))}
+            </div>
           </div>
-          <nav className="space-y-2">
-            <button className="w-full flex items-center gap-3 p-3 rounded-xl hover:bg-secondary transition-colors text-left">
-              <Award className="w-5 h-5 text-primary" />
-              <span className="font-light">Gamification</span>
-            </button>
-            <button className="w-full flex items-center gap-3 p-3 rounded-xl hover:bg-secondary transition-colors text-left">
-              <Gift className="w-5 h-5 text-primary" />
-              <span className="font-light">Rewards</span>
-            </button>
-          </nav>
-        </div>
-      </div>
 
-      <div className="max-w-md mx-auto p-4 space-y-6">
-        <BusinessHeader />
-        <MarketingBanner />
-        <FellowAstronauts />
-        <SpecialRewards />
-
-        {/* Current Challenges */}
-        <div className="space-y-4">
-          <div className="flex items-center justify-between">
+          {/* Past Challenges */}
+          <div className="space-y-4">
             <h2 className="text-xl font-poppins font-normal text-foreground flex items-center gap-2">
-              <span>🚀</span>
-              Current Challenges
+              <span>🕓</span>
+              Past Challenges
             </h2>
-            <Button
-              size="sm"
-              className="bg-primary hover:bg-primary/90 text-primary-foreground"
-            >
-              <UserPlus className="h-4 w-4 mr-1" />
-              Invite
-            </Button>
-          </div>
 
-          <div className="grid grid-cols-1 gap-4">
-            {currentChallenges.map((challenge) => (
-              <ChallengeCard
-                key={challenge.id}
-                challenge={challenge}
-                onViewDetails={() => handleViewDetails(challenge)}
-              />
-            ))}
+            <div className="grid grid-cols-1 gap-4">
+              {pastChallenges.map((challenge) => (
+                <ChallengeCard
+                  key={challenge.id}
+                  challenge={challenge}
+                  onViewDetails={() => handleViewDetails(challenge)}
+                />
+              ))}
+            </div>
           </div>
         </div>
-
-        {/* Past Challenges */}
-        <div className="space-y-4">
-          <h2 className="text-xl font-poppins font-normal text-foreground flex items-center gap-2">
-            <span>🕓</span>
-            Past Challenges
-          </h2>
-
-          <div className="grid grid-cols-1 gap-4">
-            {pastChallenges.map((challenge) => (
-              <ChallengeCard
-                key={challenge.id}
-                challenge={challenge}
-                onViewDetails={() => handleViewDetails(challenge)}
-              />
-            ))}
-          </div>
-        </div>
-      </div>
+      </Appbar>
     </div>
   );
 };

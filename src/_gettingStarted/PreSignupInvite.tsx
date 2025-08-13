@@ -52,7 +52,7 @@ export default function PreSignupInvite() {
                 className="mt-3 text-sm text-primary hover:underline"
                 aria-label="Join public challenges"
               >
-                I will be joining public challenges
+                Sign up instead
               </button>
           </section>
         </main>

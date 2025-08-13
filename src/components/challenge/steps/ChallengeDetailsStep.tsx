@@ -131,6 +131,7 @@ export const ChallengeDetailsStep: React.FC<ChallengeDetailsStepProps> = ({
           <label className="text-sm font-medium text-primary">
             Select Target *
           </label>
+
           <select
             className="soft-input w-full"
             value={data.selectedPersona || ""}
@@ -139,10 +140,15 @@ export const ChallengeDetailsStep: React.FC<ChallengeDetailsStepProps> = ({
             <option value="" disabled>
               Select a target
             </option>
-            <option value="startup">Youth Leaders</option>
-            <option value="non-profit">Religious Leaders</option>
-            <option value="corporate">Volunteers</option>
+            {JSON.parse(localStorage.getItem("selectedAudiences") || "[]").map(
+              (aud: string) => (
+                <option key={aud} value={aud}>
+                  {aud}
+                </option>
+              )
+            )}
           </select>
+
           {!data.selectedPersona && errors.selectedPersona && (
             <p className="text-xs text-destructive">{errors.selectedPersona}</p>
           )}
