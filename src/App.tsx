@@ -18,6 +18,7 @@ import ChallengeCommander from "@/_myChallenges/ChallengeCommander";
 import SingleStageChallenge from "@/_challengeDetails/SingleStage";
 import MultiStageChallenge from "@/_challengeDetails/MultiStage";
 import OtpScreen from "./_gettingStarted/OTPVerification";
+import PreSignupInvite from "./_gettingStarted/PreSignupInvite";
 
 const queryClient = new QueryClient();
 
@@ -29,9 +30,9 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Login />} />
+          <Route path="/pre-signup-invite" element={<PreSignupInvite />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/homescreen-commander" element={<Dashboard />} />
-          <Route path="/welcome" element={<Welcome />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="/user-role" element={<UserRoleSelection />} />
           <Route path="/affiliation-check" element={<AffiliationCheck />} />
