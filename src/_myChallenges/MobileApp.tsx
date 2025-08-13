@@ -12,6 +12,8 @@ import {
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Card } from "@/components/ui/card";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Link } from "react-router-dom";
 import MyChallengesPage from "./MyChallengesPage";
 import RecommendedPage from "./RecommendedPage";
 import AstronautsPage from "./AstronautsPage";
@@ -46,11 +48,24 @@ export default function MobileApp() {
         }`}
       >
         <div className="p-6">
-          <div className="mb-8">
+          {/* Profile card */}
+          <Link to="/profile" onClick={toggleSidebar} className="block" aria-label="Open profile">
+            <div className="flex flex-col items-center">
+              <Avatar className="h-16 w-16 ring-2 ring-primary/20 shadow-card">
+                <AvatarImage src={astronautImage} alt="User profile picture" loading="lazy" />
+                <AvatarFallback>U</AvatarFallback>
+              </Avatar>
+              <div className="mt-3 w-full rounded-xl bg-card text-card-foreground p-3 shadow-card">
+                <p className="text-sm font-semibold text-center">Your Name</p>
+                <p className="text-xs text-muted-foreground text-center">Member</p>
+              </div>
+            </div>
+          </Link>
+
+          {/* Menu */}
+          <div className="mt-6 mb-4">
             <h2 className="text-xl font-medium mb-2">Menu</h2>
-            <p className="text-sm text-muted-foreground font-light">
-              Welcome back!
-            </p>
+            <p className="text-sm text-muted-foreground font-light">Welcome back!</p>
           </div>
           <nav className="space-y-2">
             <button className="w-full flex items-center gap-3 p-3 rounded-xl hover:bg-secondary transition-colors text-left">
