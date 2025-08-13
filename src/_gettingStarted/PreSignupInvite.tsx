@@ -6,7 +6,7 @@ import { MobileButton } from "@/components/ui/mobile-button";
 export default function PreSignupInvite() {
   const navigate = useNavigate();
   const [inviteLink, setInviteLink] = useState("");
-  const [showPublicMessage, setShowPublicMessage] = useState(false);
+  
 
   useEffect(() => {
     document.title = "Private Challenge Invite | Sign Up";
@@ -15,8 +15,6 @@ export default function PreSignupInvite() {
   const handlePrimaryContinue = () => {
     if (inviteLink.trim()) {
       navigate("/my-challenges");
-    } else {
-      setShowPublicMessage(true);
     }
   };
 
@@ -45,23 +43,17 @@ export default function PreSignupInvite() {
             </div>
 
             {/* Info and actions */}
-            {showPublicMessage ? (
-              <div className="mt-4 space-y-4">
-                <p className="text-sm text-muted-foreground">
-                  You’ll be joining public challenges.
-                </p>
-                <MobileButton
-                  onClick={() => navigate("/signup")}
-                  className="rounded-full"
-                >
-                  Continue
-                </MobileButton>
-              </div>
-            ) : (
               <MobileButton onClick={handlePrimaryContinue} className="mt-4 rounded-full">
                 Continue
               </MobileButton>
-            )}
+              <button
+                type="button"
+                onClick={() => navigate("/signup")}
+                className="mt-3 text-sm text-primary hover:underline"
+                aria-label="Join public challenges"
+              >
+                I will be joining public challenges
+              </button>
           </section>
         </main>
       </div>
