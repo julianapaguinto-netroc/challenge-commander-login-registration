@@ -172,95 +172,95 @@ export default function Dashboard() {
   return (
     <div className="relative mx-auto max-w-sm w-full min-h-screen welcome-bg overflow-hidden">
       <Appbar>
-      <div className="w-full max-w-sm relative overflow-hidden">
-        
-        {/* Main Content */}
-        <main className="flex-1 px-4 pt-5 pb-20">
-          <div className="space-y-6">
-            <BusinessHeader />
+        <div className="w-full max-w-sm relative overflow-hidden">
+          
+          {/* Main Content */}
+          <main className="flex-1 px-4 pt-5 pb-20">
+            <div className="space-y-6">
+              <BusinessHeader />
 
-            {/* Profile completion notice */}
-            <div className="bg-yellow-100 border border-yellow-300 text-yellow-800 rounded-lg p-4 space-y-2">
-              <div className="text-sm font-medium">
-                Your profile is <span className="font-bold">45%</span> complete.
-                Help others understand who you are by finishing it.
+              {/* Profile completion notice */}
+              <div className="bg-yellow-100 border border-yellow-300 text-yellow-800 rounded-lg p-4 space-y-2">
+                <div className="text-sm font-medium">
+                  Your profile is <span className="font-bold">45%</span>{" "}
+                  complete. Help others understand who you are by finishing it.
+                </div>
+                <div className="w-full bg-yellow-200 rounded-full h-2">
+                  <div
+                    className="bg-yellow-500 h-2 rounded-full transition-all duration-300"
+                    style={{ width: "45%" }}
+                  />
+                </div>
+                <button
+                  onClick={() => navigate("/organization-info")}
+                  className="text-sm text-primary hover:underline mt-1 font-medium"
+                >
+                  Continue completing your profile →
+                </button>
               </div>
-              <div className="w-full bg-yellow-200 rounded-full h-2">
-                <div
-                  className="bg-yellow-500 h-2 rounded-full transition-all duration-300"
-                  style={{ width: "45%" }}
-                />
+
+              <MarketingBanner />
+              <FellowAstronauts />
+              <SpecialRewards />
+
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <h2 className="text-xl font-poppins font-normal text-foreground flex items-center gap-2">
+                    <span>🚀</span>
+                    Current Challenges
+                  </h2>
+                  <Button
+                    size="sm"
+                    className="bg-primary hover:bg-primary/90 text-primary-foreground"
+                  >
+                    <UserPlus className="h-4 w-4 mr-1" />
+                    Invite
+                  </Button>
+                </div>
+                <div className="grid grid-cols-1 gap-4">
+                  {currentChallenges.map((challenge) => (
+                    <ChallengeCard
+                      key={challenge.id}
+                      challenge={challenge}
+                      onViewDetails={(id) => console.log("View challenge:", id)}
+                    />
+                  ))}
+                </div>
               </div>
+
+              <div className="space-y-4">
+                <h2 className="text-xl font-poppins font-normal text-foreground flex items-center gap-2">
+                  <span>🕓</span>
+                  Past Challenges
+                </h2>
+                <div className="grid grid-cols-1 gap-4">
+                  {pastChallenges.map((challenge) => (
+                    <ChallengeCard
+                      key={challenge.id}
+                      challenge={challenge}
+                      onViewDetails={(id) => console.log("View challenge:", id)}
+                    />
+                  ))}
+                </div>
+              </div>
+            </div>
+          </main>
+
+          {/* FAB */}
+          <div className="fixed inset-0 flex justify-center items-end pointer-events-none pb-5 z-50">
+            <div className="relative w-full max-w-sm px-6 pb-6 pointer-events-auto">
               <button
-                onClick={() => navigate("/organization-info")}
-                className="text-sm text-primary hover:underline mt-1 font-medium"
+                onClick={() => navigate("/create-challenge")}
+                className="absolute right-0 bottom-0 bg-primary text-white p-4 rounded-full shadow-xl transition-transform group"
               >
-                Continue completing your profile →
+                <Plus className="w-6 h-6 transition-transform group-hover:rotate-90" />
+                <div className="absolute bottom-full right-0 mb-2 px-3 py-1 bg-foreground text-background rounded-lg text-xs font-light opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+                  Create Challenge
+                </div>
               </button>
             </div>
-
-            <MarketingBanner />
-            <FellowAstronauts />
-            <SpecialRewards />
-
-            <div className="space-y-4">
-              <div className="flex items-center justify-between">
-                <h2 className="text-xl font-poppins font-normal text-foreground flex items-center gap-2">
-                  <span>🚀</span>
-                  Current Challenges
-                </h2>
-                <Button
-                  size="sm"
-                  className="bg-primary hover:bg-primary/90 text-primary-foreground"
-                >
-                  <UserPlus className="h-4 w-4 mr-1" />
-                  Invite
-                </Button>
-              </div>
-              <div className="grid grid-cols-1 gap-4">
-                {currentChallenges.map((challenge) => (
-                  <ChallengeCard
-                    key={challenge.id}
-                    challenge={challenge}
-                    onViewDetails={(id) => console.log("View challenge:", id)}
-                  />
-                ))}
-              </div>
-            </div>
-
-            <div className="space-y-4">
-              <h2 className="text-xl font-poppins font-normal text-foreground flex items-center gap-2">
-                <span>🕓</span>
-                Past Challenges
-              </h2>
-              <div className="grid grid-cols-1 gap-4">
-                {pastChallenges.map((challenge) => (
-                  <ChallengeCard
-                    key={challenge.id}
-                    challenge={challenge}
-                    onViewDetails={(id) => console.log("View challenge:", id)}
-                  />
-                ))}
-              </div>
-            </div>
-          </div>
-        </main>
-
-        {/* FAB */}
-        <div className="fixed inset-0 flex justify-center items-end pointer-events-none pb-5 z-50">
-          <div className="relative w-full max-w-sm px-6 pb-6 pointer-events-auto">
-            <button
-              onClick={() => navigate("/create-challenge")}
-              className="absolute right-0 bottom-0 bg-primary text-white p-4 rounded-full shadow-xl transition-transform group"
-            >
-              <Plus className="w-6 h-6 transition-transform group-hover:rotate-90" />
-              <div className="absolute bottom-full right-0 mb-2 px-3 py-1 bg-foreground text-background rounded-lg text-xs font-light opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
-                Create Challenge
-              </div>
-            </button>
           </div>
         </div>
-      </div>
       </Appbar>
     </div>
   );
