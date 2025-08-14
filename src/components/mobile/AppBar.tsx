@@ -27,10 +27,11 @@ export default function Appbar({ children }: { children: React.ReactNode }) {
       {/* ✅ Sidebar */}
       <aside
         className={clsx(
-          "fixed top-0 left-0 h-full w-64 bg-background text-foreground shadow-card transition-transform duration-300 z-[10000]",
+          "fixed top-0 left-0 h-full w-64 bg-background text-foreground shadow-card transition-transform duration-300 z-[10000] flex flex-col",
           isSidebarOpen ? "translate-x-0" : "-translate-x-full"
         )}
       >
+        {/* Profile Header */}
         <div className="bg-gradient-to-r from-primary to-primary/50 text-primary-foreground rounded-b-2xl shadow-md px-6 pt-8 pb-6">
           <Link
             to="/profile"
@@ -55,8 +56,8 @@ export default function Appbar({ children }: { children: React.ReactNode }) {
           </Link>
         </div>
 
-        {/* Sidebar menu links */}
-        <nav className="mt-6 px-4">
+        {/* Sidebar Links */}
+        <nav className="mt-6 px-4 space-y-1">
           <Link
             to="/dashboard"
             className="block py-2 text-sm hover:text-primary"
@@ -71,14 +72,21 @@ export default function Appbar({ children }: { children: React.ReactNode }) {
           >
             Rewards
           </Link>
-          <Link
-            to="/settings"
-            className="block py-2 text-sm hover:text-primary"
-            onClick={toggleSidebar}
-          >
-            Settings
-          </Link>
+         
         </nav>
+
+        {/* Sticky Logout */}
+        <div className="mt-auto px-4 pb-6">
+          <button
+            onClick={() => {
+              toggleSidebar();
+              // Add your logout logic here
+            }}
+            className="w-full py-2 text-sm text-red-500 border border-red-500 rounded-lg hover:bg-red-50"
+          >
+            Logout
+          </button>
+        </div>
       </aside>
 
       {/* ✅ Overlay when sidebar is open */}

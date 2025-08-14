@@ -231,10 +231,53 @@ export const TeamSetupStep: React.FC<TeamSetupStepProps> = ({
               <h3 className="text-lg font-medium text-foreground">
                 Create Teams
               </h3>
-              <p className="text-sm font-light text-muted-foreground">
-                Add teams and assign users to each one
+              <p className="text-center text-sm font-light text-muted-foreground">
+                Use a preset group to quickly add teams and members
               </p>
             </div>
+
+            
+              <select
+                className="soft-input w-full mb-4"
+                onChange={(e) => {
+                  const selected = presetGroups.find(
+                    (p) => p.name === e.target.value
+                  );
+                  if (selected) {
+                    onUpdate({
+                      teamConfig: {
+                        ...data.teamConfig,
+                        teams: [
+                          ...(data.teamConfig?.teams || []),
+                          {
+                            name: selected.name,
+                            members: selected.members,
+                          },
+                        ],
+                      },
+                    });
+                    // Optional: preload logo in teamLogos state
+                    fetch(selected.logo)
+                      .then((res) => res.blob())
+                      .then((blob) => {
+                        const file = new File([blob], selected.name + ".png", {
+                          type: blob.type,
+                        });
+                        setTeamLogos((prev) => ({
+                          ...prev,
+                          [data.teamConfig?.teams?.length || 0]: file,
+                        }));
+                      });
+                  }
+                }}
+              >
+                <option value="">-- Select Preset Group --</option>
+                {presetGroups.map((group) => (
+                  <option key={group.name} value={group.name}>
+                    {group.name}
+                  </option>
+                ))}
+              </select>
 
             {/* Teams List */}
             <div className="space-y-4">
@@ -411,64 +454,6 @@ export const TeamSetupStep: React.FC<TeamSetupStepProps> = ({
                   </div>
                 </div>
               ))}
-
-              {/* Add Team Button */}
-              <button
-                onClick={addTeam}
-                className="w-full glass-card p-4 border-2 border-dashed border-primary/30 hover:border-primary/50 transition-colors"
-              >
-                <div className="flex items-center justify-center space-x-2 text-primary">
-                  <Plus className="w-5 h-5" />
-                  <span className="font-medium">Add Another Team</span>
-                </div>
-              </button>
-
-              <p className="text-center text-sm font-light text-primary">OR </p>
-              <p className="text-center text-sm font-light text-muted-foreground">
-                Use a preset group to quickly add teams and members
-              </p>
-
-              <select
-                className="soft-input w-full mb-4"
-                onChange={(e) => {
-                  const selected = presetGroups.find(
-                    (p) => p.name === e.target.value
-                  );
-                  if (selected) {
-                    onUpdate({
-                      teamConfig: {
-                        ...data.teamConfig,
-                        teams: [
-                          ...(data.teamConfig?.teams || []),
-                          {
-                            name: selected.name,
-                            members: selected.members,
-                          },
-                        ],
-                      },
-                    });
-                    // Optional: preload logo in teamLogos state
-                    fetch(selected.logo)
-                      .then((res) => res.blob())
-                      .then((blob) => {
-                        const file = new File([blob], selected.name + ".png", {
-                          type: blob.type,
-                        });
-                        setTeamLogos((prev) => ({
-                          ...prev,
-                          [data.teamConfig?.teams?.length || 0]: file,
-                        }));
-                      });
-                  }
-                }}
-              >
-                <option value="">-- Select Preset Group --</option>
-                {presetGroups.map((group) => (
-                  <option key={group.name} value={group.name}>
-                    {group.name}
-                  </option>
-                ))}
-              </select>
             </div>
 
             {errors.teams && (
