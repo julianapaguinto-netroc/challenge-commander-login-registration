@@ -20,6 +20,7 @@ import MultiStageChallenge from "@/_challengeDetails/MultiStage";
 import OtpScreen from "./_gettingStarted/OTPVerification";
 import PreSignupInvite from "./_gettingStarted/PreSignupInvite";
 import Profile from "./_profile/Profile";
+import ResetPassword from "./_gettingStarted/resetPassword";
 
 const queryClient = new QueryClient();
 
@@ -32,6 +33,7 @@ const App = () => (
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path="/pre-signup-invite" element={<PreSignupInvite />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/welcome" element={<Welcome />} />
           <Route path="/homescreen-commander" element={<Dashboard />} />

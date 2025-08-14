@@ -1,24 +1,78 @@
 import { useState } from "react";
-import { SocialLogin } from "@/components/social-login";
+import { useNavigate } from "react-router-dom";
 import { MobileButton } from "@/components/ui/mobile-button";
 import { MobileInput } from "@/components/ui/mobile-input";
-import { useNavigate } from "react-router-dom";
+import { SocialLogin } from "@/components/social-login";
 import { Eye, EyeOff } from "lucide-react";
-import welcomeIllustration from "@/assets/welcome-illustration.png"
+import welcomeIllustration from "@/assets/welcome-illustration.png";
 
+// Dummy users
+let users = [
+  {
+    email: "new.commander@example.com",
+    password: "Temp1234!", // default password
+    flow: "new-user",
+    role: "commander",
+    persona: "SMEs",
+    selectedAudiences: ["Employees"],
+  },
+  {
+    email: "old.commander@example.com",
+    password: "OldUser123!",
+    flow: "homescreen-commander",
+    role: "commander",
+    persona: "SMEs",
+    selectedAudiences: ["Employees"],
+  },
+  {
+    email: "old.community@example.com",
+    password: "OldCommunity123!",
+    flow: "homescreen-commander",
+    role: "commander",
+    persona: "Community",
+    selectedAudiences: ["Youth Leaders", "Religious Leaders"],
+  },
+];
+// endl-----------Dummy users
 
 export default function Login() {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-  });
+  const [formData, setFormData] = useState({ email: "", password: "" });
+  const [error, setError] = useState("");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle login logic here
-    navigate("/my-challenges");
+
+    const userIndex = users.findIndex((u) => u.email === formData.email);
+
+    if (userIndex === -1) {
+      setError("Invalid email or password.");
+      return;
+    }
+
+    const user = users[userIndex];
+
+    // If default password, redirect to new-user
+    if (formData.password === user.password && user.flow === "new-user") {
+      navigate("/otp-verification", { state: { from: "/" } });
+      return;
+    }
+
+    // Otherwise, check if password matches updated password
+    if (formData.password !== user.password) {
+      setError("Invalid email or password.");
+      return;
+    }
+
+    // Normal login flow
+    localStorage.setItem("selectedRole", user.role);
+    localStorage.setItem("persona", user.persona);
+    localStorage.setItem(
+      "selectedAudiences",
+      JSON.stringify(user.selectedAudiences)
+    );
+    navigate("/homescreen-commander");
   };
 
   return (
@@ -26,15 +80,14 @@ export default function Login() {
       <div className="flex flex-col min-h-screen p-6">
         <div className="flex-1 flex items-center justify-center">
           <div className="mobile-card w-full max-w-sm">
-
-              {/* Illustration */}
-          <div className="text-center mb-8">
-            <img 
-              src={welcomeIllustration} 
-              alt="Welcome illustration" 
-              className="w-full h-48 object-contain mb-6"
-            />
-          </div>
+            {/* Illustration */}
+            <div className="text-center mb-8">
+              <img
+                src={welcomeIllustration}
+                alt="Welcome illustration"
+                className="w-full h-48 object-contain mb-6"
+              />
+            </div>
 
             {/* Header */}
             <div className="text-center mb-8">
@@ -81,6 +134,8 @@ export default function Login() {
                 </button>
               </div>
 
+              {error && <p className="text-red-500 text-xs">{error}</p>}
+
               {/* Forgot Password */}
               <div className="text-right">
                 <button
@@ -91,7 +146,6 @@ export default function Login() {
                 </button>
               </div>
 
-             
               {/* Login Button */}
               <MobileButton type="submit" className="mt-6">
                 Login
@@ -103,7 +157,7 @@ export default function Login() {
               <p className="text-sm text-muted-foreground font-light">
                 Don't have an account?{" "}
                 <button
-                  onClick={() => navigate("/pre-signup-invite")}
+                  onClick={() => navigate("/signup")}
                   className="text-primary font-medium hover:underline"
                 >
                   Sign up
@@ -111,18 +165,17 @@ export default function Login() {
               </p>
             </div>
 
-             {/* Divider */}
-              <div className="flex items-center my-6">
-                <div className="flex-1 border-t border-border"></div>
-                <span className="px-4 text-sm text-muted-foreground font-light">
-                  or sign up with
-                </span>
-                <div className="flex-1 border-t border-border"></div>
-              </div>
+            {/* Divider */}
+            <div className="flex items-center my-6">
+              <div className="flex-1 border-t border-border"></div>
+              <span className="px-4 text-sm text-muted-foreground font-light">
+                or sign up with
+              </span>
+              <div className="flex-1 border-t border-border"></div>
+            </div>
 
-              {/* Social Login */}
-              <SocialLogin title="" />
-
+            {/* Social Login */}
+            <SocialLogin title="" />
           </div>
         </div>
       </div>

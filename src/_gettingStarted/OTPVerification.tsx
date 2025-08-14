@@ -1,11 +1,14 @@
 import React, { useState, useRef, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,useLocation } from "react-router-dom";
 
 export default function OtpScreen() {
   const [otp, setOtp] = useState(Array(6).fill(""));
   const [timer, setTimer] = useState(60);
   const inputRefs = useRef<HTMLInputElement[]>([]);
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const fromPage = location.state?.from || "login";
 
   useEffect(() => {
     if (timer > 0) {
@@ -32,14 +35,19 @@ export default function OtpScreen() {
   };
 
   const handleSubmit = () => {
-    if (otp.every((digit) => digit.trim() !== "")) {
-      const code = otp.join("");
-      // Optionally validate code with backend
-      navigate("/welcome");
+  if (otp.every((digit) => digit.trim() !== "")) {
+    const code = otp.join("");
+    // Optionally validate code with backend
+
+    if (fromPage === "signup") {
+      navigate("/user-role"); // signup flow
     } else {
-      alert("Please enter the full 6-digit OTP.");
+      navigate("/reset-password"); // login flow
     }
-  };
+  } else {
+    alert("Please enter the full 6-digit OTP.");
+  }
+};
 
   const handleResend = () => {
     setOtp(Array(6).fill(""));
@@ -49,9 +57,9 @@ export default function OtpScreen() {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen px-6 bg-background text-primary space-y-6">
-      <h1 className="text-xl font-semibold">Enter OTP</h1>
+      <h1 className="text-xl font-semibold">OTP Verification</h1>
       <p className="text-sm text-muted-foreground text-center max-w-xs">
-        We've sent a 6-digit code to your phone. Enter it below to continue.
+       Welcome, first time users! Use the 6-digit OTP code sent to your email to get started.
       </p>
 
       <div className="flex space-x-2">
