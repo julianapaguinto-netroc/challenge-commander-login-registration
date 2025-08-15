@@ -21,6 +21,7 @@ export interface ChallengeData {
 
   participantType: "individual" | "team";
   visibility: "public" | "private";
+  maxParticipants?: number;
 
   selectedVerifiers?: string[];
   selectedSupporters?: string[];
@@ -37,6 +38,7 @@ export interface ChallengeData {
   };
 
   challengeType: "single-task" | "multi-task";
+  isMultiStage: boolean;
 
   stages: Array<{
     title: string;
@@ -87,6 +89,7 @@ export const ChallengeCreationFlow: React.FC = () => {
     participantType: "individual",
     visibility: "public",
     challengeType: "single-task",
+    isMultiStage: false,
     stages: [
       {
         title: "",
@@ -228,6 +231,7 @@ export const ChallengeCreationFlow: React.FC = () => {
                   participantType: "individual",
                   visibility: "public",
                   challengeType: "single-task",
+                  isMultiStage: false,
                   stages: [
                     {
                       title: "",
