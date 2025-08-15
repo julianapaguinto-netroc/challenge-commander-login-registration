@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowLeft, List, Info, Plus, Users } from 'lucide-react';
+import { ArrowLeft, List, Info, Plus } from 'lucide-react';
 import { ChallengeData } from '../ChallengeCreationFlow';
 
 interface ChallengeTypeStepProps {
@@ -71,40 +71,7 @@ export const ChallengeTypeStep: React.FC<ChallengeTypeStepProps> = ({
               }`}
             />
           </button>
-      </div>
-
-      {/* Max Participants Field for Public Individual Challenges */}
-      {data.visibility === 'public' && data.participantType === 'individual' && (
-        <div className="glass-card p-6 space-y-4">
-          <div className="flex items-center space-x-3">
-            <div className="p-2 rounded-full bg-primary/10">
-              <Users className="w-5 h-5 text-primary" />
-            </div>
-            <div>
-              <h3 className="text-lg font-medium text-foreground">
-                Participant Limit
-              </h3>
-              <p className="text-sm font-light text-muted-foreground">
-                Set maximum number of participants (optional)
-              </p>
-            </div>
-          </div>
-          
-          <div className="space-y-2">
-            <label className="text-sm font-medium text-foreground">
-              Maximum Participants
-            </label>
-            <input
-              type="number"
-              placeholder="e.g., 100 (leave empty for unlimited)"
-              value={data.maxParticipants || ''}
-              onChange={(e) => onUpdate({ maxParticipants: e.target.value ? parseInt(e.target.value) : undefined })}
-              className="w-full px-4 py-3 bg-background border border-border rounded-xl text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/20"
-              min="1"
-            />
-          </div>
         </div>
-      )}
         
         {data.isMultiStage && (
           <div className="border-t border-border pt-4">
