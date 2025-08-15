@@ -41,36 +41,6 @@ export const ChallengeTypeStep: React.FC<ChallengeTypeStepProps> = ({
 
       {/* Options */}
       <div className="space-y-4">
-        {/* Single Task Option */}
-        <button
-          onClick={() => handleSelection('single-task')}
-          className={`glass-card w-full p-6 text-left transition-all duration-300 ${
-            data.challengeType === 'single-task' 
-              ? 'ring-2 ring-primary bg-primary-soft/20' 
-              : 'hover:scale-[1.02]'
-          }`}
-        >
-          <div className="flex items-center space-x-4">
-            <div className="p-3 rounded-full bg-primary/10">
-              <Target className="w-6 h-6 text-primary" />
-            </div>
-            <div className="flex-1">
-              <h3 className="text-lg font-medium text-foreground">
-                Single-Task Challenge
-              </h3>
-              <p className="text-sm font-light text-muted-foreground mt-1">
-                One goal to achieve from start to finish
-              </p>
-              <div className="flex items-center space-x-2 mt-2">
-                <div className="w-2 h-2 rounded-full bg-green-500"></div>
-                <span className="text-xs text-muted-foreground">
-                  Simple and focused
-                </span>
-              </div>
-            </div>
-          </div>
-        </button>
-
         {/* Multi Task Option */}
         <button
           onClick={() => handleSelection('multi-task')}
@@ -113,27 +83,15 @@ export const ChallengeTypeStep: React.FC<ChallengeTypeStepProps> = ({
 
       {/* Examples */}
       <div className="glass-card p-4 space-y-4">
-        <h4 className="text-sm font-medium text-primary">Examples</h4>
+        <h4 className="text-sm font-medium text-primary">Example</h4>
         
-        <div className="space-y-3">
-          <div className="flex items-start space-x-3">
-            <Target className="w-4 h-4 text-green-500 mt-0.5" />
-            <div>
-              <p className="text-xs font-medium text-foreground">Single-Task</p>
-              <p className="text-xs font-light text-muted-foreground">
-                "Complete daily scripture reading for 30 days"
-              </p>
-            </div>
-          </div>
-          
-          <div className="flex items-start space-x-3">
-            <List className="w-4 h-4 text-blue-500 mt-0.5" />
-            <div>
-              <p className="text-xs font-medium text-foreground">Multi-Task</p>
-              <p className="text-xs font-light text-muted-foreground">
-                "Week 1: Read 1 chapter, Week 2: 2 chapters, Week 3: 3 chapters"
-              </p>
-            </div>
+        <div className="flex items-start space-x-3">
+          <List className="w-4 h-4 text-blue-500 mt-0.5" />
+          <div>
+            <p className="text-xs font-medium text-foreground">Multi-Task Challenge</p>
+            <p className="text-xs font-light text-muted-foreground">
+              "Week 1: Read 1 chapter, Week 2: 2 chapters, Week 3: 3 chapters"
+            </p>
           </div>
         </div>
       </div>
@@ -143,7 +101,7 @@ export const ChallengeTypeStep: React.FC<ChallengeTypeStepProps> = ({
         <div className="flex items-start space-x-3">
           <Info className="w-4 h-4 text-primary mt-0.5" />
           <p className="text-xs font-light text-muted-foreground">
-            <span className="font-medium text-primary">Tip:</span> Single-task challenges are easier to track, while multi-task challenges provide more engagement through progression.
+            <span className="font-medium text-primary">Tip:</span> Multi-task challenges provide more engagement through progression and allow participants to build habits gradually.
           </p>
         </div>
       </div>
