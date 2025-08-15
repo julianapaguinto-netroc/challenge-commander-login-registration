@@ -138,6 +138,9 @@ export const ChallengeCreationFlow: React.FC = () => {
     if (!needsTeamSetup()) {
       steps = steps.filter((step) => step !== "Team Setup");
     }
+    if (!challengeData.isMultiStage) {
+      steps = steps.filter((step) => step !== "Stages");
+    }
     return steps;
   };
 
